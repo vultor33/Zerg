@@ -7,7 +7,7 @@
 
 #include "Population.h"
 #include "Predator.h"
-#include "MATH.h"
+#include "AuxMathGa.h"
 #include "ParallelOptimization.h"
 #include "StructOptions.h"
 
@@ -67,7 +67,7 @@ void Creation::set_creation_methods(Predator &pred)
 	int auxtoCreate = 0;
 	for(;;)
 	{
-		creationTry = MATH::randomNumber(0,number_methods-1);
+		creationTry = AuxMathGa::randomNumber(0,number_methods-1);
 		if(lastMethod(methodDone, creation_methods, (int)to_create - auxtoCreate))
 		{
 			break;
@@ -184,12 +184,12 @@ void Creation::select_parents(Predator &pred, int &parent1, int &parent2)
 	{
 		do
 		{
-			parent1 = MATH::randomNumber(0,pop_size-1);
+			parent1 = AuxMathGa::randomNumber(0,pop_size-1);
 		}while(is_dead(pred, parent1));
 
 		do
 		{
-			parent2 = MATH::randomNumber(0,pop_size-1);
+			parent2 = AuxMathGa::randomNumber(0,pop_size-1);
 		}while(is_dead(pred, parent2));
 	}
 }

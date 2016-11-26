@@ -131,7 +131,7 @@ void AdministrateCreation::setNewCreationRate(vector<double> &creation_rate, con
 	{
 		if(wasCreated(i,methodUsed))
 		{
-				creation_rate[i] += fuzzy_.getCreateRateVariation(methodMean[i]);
+			creation_rate[i] += fuzzy_.getCreateRateVariation(methodMean[i]);
 			if(pgaoptions_->printVariationOfCreationMethods)
 			{
 				*pgeneticOut_ << "Variation of fuzzy: " << 

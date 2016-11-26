@@ -4,7 +4,7 @@
 #include <fstream>
 #include <vector>
 
-#include "MATH.h"
+#include "AuxMathGa.h"
 #include "Population.h"
 #include "GAPrinting.h"
 
@@ -29,8 +29,8 @@ void Predator::get_dead_individuals(Population &pop, ofstream &geneticOut_)
 		fitness_energies[i] = pop.getfitness(i);
 		fitness_rank[i] = i;
 	}
-	vector<int> vector_order = MATH::vector_ordering(fitness_energies);
-	MATH::vector_ordering_with_instructions(fitness_rank, vector_order);
+	vector<int> vector_order = AuxMathGa::vector_ordering(fitness_energies);
+	AuxMathGa::vector_ordering_with_instructions(fitness_rank, vector_order);
 
 	// choose last to kill
 	int i_index = 0;

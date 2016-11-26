@@ -1,6 +1,8 @@
 #include "UserOperators.h"
 
-#include "MATH.h"
+#include <iostream>
+
+#include "AuxMathGa.h"
 
 using namespace std;
 using namespace zerg;
@@ -63,20 +65,20 @@ bool UserOperators::operatorAdministration(int method, const std::vector<double>
 	case 0:
 	case 1:
 		if(operatorPerformance[0] > 2.0e0)
-			crossoverWeight = MATH::randomNumber(0.5e0,0.9e0);
+			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
 		break;
 	case 2:
 		break;
 	case 3:
 		if(operatorPerformance[0] > 2.0e0)
-			mutationValue = MATH::randomNumber(0.05e0,0.3e0);
+			mutationValue = AuxMathGa::randomNumber(0.05e0,0.3e0);
 		break;
 	case 4:
 		fuzzMut_.adminFuzzyStep(operatorPerformance[0]);
 		break;
 	case 5:
 		if(operatorPerformance[0] > 2.0e0)
-			crossoverWeight = MATH::randomNumber(0.5e0,0.9e0);
+			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
 		break;
 	default:
 		cout << " administration of this operator undefined - contact developers " << endl;

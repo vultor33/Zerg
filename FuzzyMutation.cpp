@@ -1,19 +1,19 @@
 #include "FuzzyMutation.h"
 
 #include <iostream>
-#include <fl/Headers.h>
-#include "MATH.h"
+//#include <fl/Headers.h>
+#include "AuxMathGa.h"
 
 using namespace std;
 using namespace zerg;
-using namespace fl;
+//using namespace fl;
 
 namespace zerg{
 void FuzzyMutation::startFuzzyMutation(const std::vector<double> &random_individual_range_min,
 	                                   const std::vector<double> &random_individual_range_max)
 {
 	cout << "start fuzzy mut " << endl;
-
+	/*
 	int size = (int)random_individual_range_min.size();
 	referenceVariation.resize(size);
 
@@ -27,15 +27,17 @@ void FuzzyMutation::startFuzzyMutation(const std::vector<double> &random_individ
 
 	setFuzzyRules();
 	meanFuzzyStep = 1.0e0;
+	*/
 }
 
 FuzzyMutation::~FuzzyMutation()
 {
-	delete engine;
+//	delete engine;
 }
 
 void FuzzyMutation::setFuzzyRules()
 {
+/*
 	engine = new Engine;
 	engine->setName("FuzzyMutation");
 
@@ -107,11 +109,13 @@ void FuzzyMutation::setFuzzyRules()
 	ruleBlock->addRule(fl::Rule::parse("if Variation is Outstanding then NewStep is toKeep", engine));
 
 	engine->addRuleBlock(ruleBlock);
-
+	*/
 }
 
 void FuzzyMutation::adminFuzzyStep(double methodMean)
 {
+	cout << "admin fuzzystep" << endl;
+	/*
 	if(methodMean<=-2.0e0)
 	{
 		//keep
@@ -143,21 +147,25 @@ void FuzzyMutation::adminFuzzyStep(double methodMean)
 		//cout << "result of fuzzy " << outputVariable1->getOutputValue() << "   step    " << meanFuzzyStep << endl;
 	
 	}
+	*/
 
 }
 
 void FuzzyMutation::makeMutation(int target, int parent, std::vector<vector<double>> &x_vec)
 {
+	cout << "make mutation" << endl;
+	/*
 	double fuzzyStep;
 	for(int i=0;i<(int)x_vec[parent].size();i++)
 	{
 		fuzzyStep = referenceVariation[i]*meanFuzzyStep;
 		x_vec[target][i] = x_vec[parent][i] + MATH::randomNumber(-fuzzyStep,fuzzyStep);
 	}
+	*/
 }
 
 
-}
+}//end namespace
 
 
 

@@ -1,4 +1,4 @@
-#include "MATH.h"
+#include "AuxMathGa.h"
 
 #include <iostream>
 #include <cstdlib>
@@ -10,24 +10,24 @@ using namespace std;
 using namespace zerg;
 
 namespace zerg{
-void MATH::set_seed(int seed)
+void AuxMathGa::set_seed(int seed)
 {
 	srand(seed);
 }
 
-double MATH::randomNumber(double fMin, double fMax)
+double AuxMathGa::randomNumber(double fMin, double fMax)
 {
 	double f = ((double)rand() / (double)(RAND_MAX));
   	return fMin + f * (fMax - fMin);
 }
 
-int MATH::randomNumber(int fMin, int fMax)
+int AuxMathGa::randomNumber(int fMin, int fMax)
 {
 	return fMin + (rand() % (int)(fMax - fMin + 1));
 }
 
 
-vector<int> MATH::vector_ordering(vector<double> &vetor_entrada)
+vector<int> AuxMathGa::vector_ordering(vector<double> &vetor_entrada)
 {
 	int tamanho_vetor = vetor_entrada.size();
 	vector<int> operacoes_organizam;
@@ -65,7 +65,7 @@ vector<int> MATH::vector_ordering(vector<double> &vetor_entrada)
 }
 
 // Rotina que organiza os autovetores em ordem crescente de autovalores.
-void MATH::vector_ordering_with_instructions(vector<vector<double>> &vetor_entrada, const vector<int> &vetor_organiza)
+void AuxMathGa::vector_ordering_with_instructions(vector<vector<double>> &vetor_entrada, const vector<int> &vetor_organiza)
 {
 	int tamanho_vetor_organiza = vetor_organiza.size();
 	int tamanho_vetor_entrada = vetor_entrada.size();
@@ -87,7 +87,7 @@ void MATH::vector_ordering_with_instructions(vector<vector<double>> &vetor_entra
 
 }
 
-void MATH::vector_ordering_with_instructions(vector<int> &vetor_entrada, const vector<int> &vetor_organiza)
+void AuxMathGa::vector_ordering_with_instructions(vector<int> &vetor_entrada, const vector<int> &vetor_organiza)
 {
 	int tamanho_vetor_organiza = vetor_organiza.size();
 	int tamanho_vetor_entrada = vetor_entrada.size();

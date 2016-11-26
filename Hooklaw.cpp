@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-#include "MATH.h"
+#include "AuxMathGa.h"
 #include "BasicOperators.h"
 
 using namespace std;

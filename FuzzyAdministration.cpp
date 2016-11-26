@@ -1,18 +1,24 @@
+//#define useFuzzy
+
 #include "FuzzyAdministration.h"
 
 #include <iostream>
 
 using namespace std;
-using namespace fl;
 
 namespace zerg{
 FuzzyAdministration::~FuzzyAdministration()
 {
+
+#ifdef useFuzzy
 	delete engine; // it deletes others
+#endif
 };
 
 void FuzzyAdministration::setFuzzyRules()
 {
+#ifdef useFuzzy
+	using namespace fl;
 	engine = new Engine;
 	engine->setName("fuzzyGa");
 
@@ -69,25 +75,26 @@ void FuzzyAdministration::setFuzzyRules()
 	engine->addRuleBlock(ruleBlock);
 
 	engine->configure("Minimum", "Maximum", "AlgebraicProduct", "AlgebraicSum", "Centroid");
+#endif
 }
 
 double FuzzyAdministration::getCreateRateVariation(double methodMean)
 {
 	if(methodMean<=-2.0e0)
-	{
 		return 0.9e0;
-	}
 	else if(methodMean>=2.0e0)
-	{
 		return -0.9e0;
-	}
+#ifndef useFuzzy
+	return -0.45*(methodMean + 2.0e0) + 0.9e0;
 
+#else
+	use namespace fl;
 	scalar in = -methodMean + 2.0e0;
 	fitnessVariation->setInputValue(in);
 	engine->process();
 	creationRateControl->defuzzify();
-
-	return (creationRateControl->getOutputValue()-1.0e0);
+	return (creationRateControl->getOutputValue() - 1.0e0);
+#endif
 }
 
 }

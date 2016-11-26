@@ -27,6 +27,7 @@ private:
 	bool checkHighlanderStop(int i);
 	int highlander;
 	double highlanderFitness;
+	int highlanderMaxIteration;
 	int highlanderFirstAppearence;
 
 	zerg::Population &pop;

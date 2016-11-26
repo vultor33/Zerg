@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "Population.h"
-#include "MATH.h"
+#include "AuxMathGa.h"
 #include "Predator.h"
 #include "Creation.h"
 
@@ -22,6 +22,7 @@ GeneticAlgorithm::GeneticAlgorithm(Population &pop_in, int pop_size_in)
 	pop_size = pop_size_in;
 	highlander = 0;
 	highlanderFitness = 1.0e99;
+	highlanderMaxIteration = 50;
 	geneticOut_.open("output.ga");
 
 	//initializing objects
@@ -42,19 +43,22 @@ GeneticAlgorithm::~GeneticAlgorithm()
 	geneticOut_.close();
 }
 
-void GeneticAlgorithm::writeOpenMessage()
+void GeneticAlgorithm::ga_start(int max_generation)
 {
-	geneticOut_ << "//////////////////////////////////////////" << endl
-				<< "////////  ZERG GENETIC ALGORITHM  ////////" << endl
-				<< "//////////////////////////////////////////" << endl
-				<< endl << "Author: Frederico Vultor" << endl << endl;
+	for (int i = 1; i <= max_generation; i++)
+	{
+		geneticOut_ << "Generation:  " << i << endl;
+		predation();
+		creation();
 
-	geneticOut_ << "Zerg GA started normally" << endl << endl;
+		if (checkHighlanderStop(i))
+			break;
+	}
 }
 
 void GeneticAlgorithm::setGaOptions(int flag, bool activate)
 {
-	switch(flag)
+	switch (flag)
 	{
 	case 0:
 		gaoptions_.printAllIndividuals = activate;
@@ -78,6 +82,16 @@ void GeneticAlgorithm::setGaOptions(int flag, bool activate)
 	}
 }
 
+void GeneticAlgorithm::writeOpenMessage()
+{
+	geneticOut_ << "//////////////////////////////////////////" << endl
+				<< "////////  ZERG GENETIC ALGORITHM  ////////" << endl
+				<< "//////////////////////////////////////////" << endl
+				<< endl << "Author: Frederico Vultor" << endl << endl;
+
+	geneticOut_ << "Zerg GA started normally" << endl << endl;
+}
+
 void GeneticAlgorithm::setDefaultGaOptions()
 {
 	setGaOptions(0,false);
@@ -96,19 +110,6 @@ void GeneticAlgorithm::creation()
 	creation_.make_new_individuals(pop,pred_);
 }
 
-void GeneticAlgorithm::ga_start(int max_generation)
-{
-	for(int i=1; i<=max_generation; i++)
-	{
-		geneticOut_ << "Generation:  " << i << endl;
-		predation();
-		creation();
-
-		if(checkHighlanderStop(i))
-			break;
-	}
-}
-
 bool GeneticAlgorithm::checkHighlanderStop(int i)
 {
 	for(int j=0; j<pop_size; j++)
@@ -121,7 +122,7 @@ bool GeneticAlgorithm::checkHighlanderStop(int i)
 		}
 	}
 
-	if((i - highlanderFirstAppearence)>50)
+	if((i - highlanderFirstAppearence)>highlanderMaxIteration)
 	{
 		geneticOut_ << "STOPPED BY HIGHLANDER SURVIVAL " << endl;
 		return true;

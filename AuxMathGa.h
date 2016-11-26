@@ -1,11 +1,11 @@
-#ifndef MATH_H
-#define MATH_H
+#ifndef AUXMATHGA_H
+#define AUXMATHGA_H
 
 #include <vector>
 #include <fstream>
 
 namespace zerg{
-class MATH
+class AuxMathGa
 {
 public:
 	//random numbers

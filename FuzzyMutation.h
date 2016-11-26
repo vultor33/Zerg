@@ -1,7 +1,7 @@
 #ifndef FUZZYMUTATION_H
 #define FUZZYMUTATION_H
 
-#include <fl/Headers.h>
+//#include <fl/Headers.h>
 #include <vector>
 
 namespace zerg{
@@ -20,11 +20,13 @@ public:
 
 private:
 	void setFuzzyRules();
+	/*
 	fl::Engine * engine;
 	fl::InputVariable* inputVariable1;
 	fl::InputVariable* inputVariable2;
 	fl::OutputVariable* outputVariable1;
 	fl::RuleBlock* ruleBlock;
+	*/
 
 	std::vector<double> referenceVariation;
 	double meanFuzzyStep;

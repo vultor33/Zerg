@@ -11,7 +11,12 @@
 using namespace std;
 using namespace zerg;
 
+/*
+impotante: opcao para desativar as variacoes em :
+double FuzzyAdministration::getCreateRateVariation
 
+
+*/
 //ele checa similaridade so 30 vezes, se
 // nao passar vai igual mesmo.
 int main()

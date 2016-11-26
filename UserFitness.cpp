@@ -32,11 +32,6 @@ void UserFitness::optimize(int ind_i)
 	// I want:
 	// energy[ind_i] -> fitness function 
 
-
-
-
-
-
 	//test function
 	int size = energy.size();
 	double auxsoma = 0.0e0;

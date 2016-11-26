@@ -1,7 +1,7 @@
 #ifndef FUZZYGA_H
 #define FUZZYGA_H
 
-#include <fl/Headers.h>
+//#include <fl/Headers.h>
 
 namespace zerg{
 class FuzzyAdministration
@@ -15,11 +15,12 @@ public:
 
 
 private:
+	/*
 	fl::Engine * engine;
 	fl::InputVariable* fitnessVariation;
 	fl::OutputVariable* creationRateControl;
 	fl::RuleBlock* ruleBlock;
-
+	*/
 };
 
 }
