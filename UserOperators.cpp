@@ -43,10 +43,6 @@ bool UserOperators::create_individual(int creation_type,int target, int parent1,
 		break;
 
 	case 4:
-		fuzzMut_.makeMutation(target,parent1, x_vec);
-		break;
-
-	case 5:
 		make_crossover_probability(target, parent1, parent2);
 		break;
 
@@ -74,9 +70,6 @@ bool UserOperators::operatorAdministration(int method, const std::vector<double>
 			mutationValue = AuxMathGa::randomNumber(0.05e0,0.3e0);
 		break;
 	case 4:
-		fuzzMut_.adminFuzzyStep(operatorPerformance[0]);
-		break;
-	case 5:
 		if(operatorPerformance[0] > 2.0e0)
 			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
 		break;

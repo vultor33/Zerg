@@ -46,7 +46,6 @@ protected:
 	void make_crossover_2_points(int target,int parent1, int parent2);
 	void make_crossover_probability(int target,int parent1, int parent2);
 	double crossoverProbability;
-	zerg::FuzzyMutation fuzzMut_;
 
 private:
 	//procedures

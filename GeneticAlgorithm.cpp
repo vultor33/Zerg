@@ -23,7 +23,7 @@ GeneticAlgorithm::GeneticAlgorithm(Population &pop_in, int pop_size_in)
 	highlander = 0;
 	highlanderFitness = 1.0e99;
 	highlanderMaxIteration = 50;
-	geneticOut_.open("output.ga");
+	geneticOut_.open("output.txt");
 
 	//initializing objects
 	pred_.initialize_predator(pop_size, gaoptions_);

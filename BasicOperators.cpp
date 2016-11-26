@@ -17,7 +17,7 @@ BasicOperators::BasicOperators(int pop_size, int number_parameters)
 	n_parameters = number_parameters;
 	energy.resize(pop_size);
 	x_vec.resize(pop_size);
-	number_of_creation_methods = 6;
+	number_of_creation_methods = 5;
 	tol_similarity = 1.0e-2;
 	random_individual_range_max.resize(n_parameters);
 	random_individual_range_min.resize(n_parameters);
@@ -27,7 +27,6 @@ BasicOperators::~BasicOperators(){}
 
 void BasicOperators::startBasicOperators()
 {
-	fuzzMut_.startFuzzyMutation(random_individual_range_min,random_individual_range_max);
 	mutationValue = 0.1e0;
 	crossoverWeight = 0.7e0;
 	crossoverProbability = 0.7e0;
@@ -174,10 +173,6 @@ bool BasicOperators::create_individual(int creation_type,int target, int parent1
 		break;
 
 	case 4:
-		fuzzMut_.makeMutation(target,parent1, x_vec);
-		break;
-
-	case 5:
 		make_crossover_probability(target, parent1, parent2);
 		break;
 
@@ -195,7 +190,7 @@ bool BasicOperators::check_similarity(int target)
 
 void BasicOperators::append_to_similarity(int ind_i)
 {
-	write_similar_.open("similiarity.ga",fstream::app);
+	write_similar_.open("similiarity.txt",fstream::app);
 	write_similar_ << energy[ind_i] << endl;
 	for(int i = 0; i<n_parameters; i++)
 	{
@@ -206,7 +201,7 @@ void BasicOperators::append_to_similarity(int ind_i)
 
 bool BasicOperators::read_file_to_check_similarity(int target)
 {
-	read_similar_.open("similiarity.ga");
+	read_similar_.open("similiarity.txt");
 	double auxenergy;
 	double auxx_veci;
 	double auxerror;// least squares
@@ -251,9 +246,6 @@ bool BasicOperators::operatorAdministration(int method, const std::vector<double
 			mutationValue = AuxMathGa::randomNumber(0.05e0,0.3e0);
 		break;
 	case 4:
-		fuzzMut_.adminFuzzyStep(operatorPerformance[0]);
-		break;
-	case 5:
 		if(operatorPerformance[0] > 2.0e0)
 			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
 		break;
