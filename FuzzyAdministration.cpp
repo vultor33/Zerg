@@ -15,8 +15,12 @@ FuzzyAdministration::~FuzzyAdministration()
 #endif
 };
 
-void FuzzyAdministration::setFuzzyRules()
+void FuzzyAdministration::setFuzzyRules(double maxEnergyVariarion_in, double maxCreationRateVariation_in)
 {
+	maxEnergyVariation = maxEnergyVariarion_in;
+
+	maxCreationRateVariation = maxCreationRateVariation_in;
+
 #ifdef useFuzzy
 	using namespace fl;
 	engine = new Engine;
@@ -80,12 +84,13 @@ void FuzzyAdministration::setFuzzyRules()
 
 double FuzzyAdministration::getCreateRateVariation(double methodMean)
 {
-	if(methodMean<=-2.0e0)
-		return 0.9e0;
-	else if(methodMean>=2.0e0)
-		return -0.9e0;
+	if(methodMean <= -maxEnergyVariation)
+		return maxCreationRateVariation;
+	else if(methodMean >= maxEnergyVariation)
+		return -maxCreationRateVariation;
 #ifndef useFuzzy
-	return -0.45*(methodMean + 2.0e0) + 0.9e0;
+	double inclination = -maxCreationRateVariation / maxEnergyVariation;
+	return inclination*(methodMean + maxEnergyVariation) + maxCreationRateVariation;
 
 #else
 	use namespace fl;

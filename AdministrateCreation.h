@@ -14,7 +14,12 @@ namespace zerg{
 class AdministrateCreation
 {
 public:
-	void initializeAdministration(std::ofstream &geneticOut_, int pop_size, zerg::GaOptions &gaoptions);
+	void initializeAdministration(
+		std::ofstream &geneticOut_, 
+		int pop_size, 
+		zerg::GaOptions &gaoptions,
+		zerg::GaParameters &gaParam
+		);
 
 	void setNewIndividuals(int newComer, int method, double fitness);
 

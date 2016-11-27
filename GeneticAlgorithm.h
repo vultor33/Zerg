@@ -13,7 +13,7 @@ namespace zerg{
 class GeneticAlgorithm
 {
 public:
-	GeneticAlgorithm(zerg::Population &Pop_in,int pop_size_in);
+	GeneticAlgorithm(zerg::Population &Pop_in,GaParameters & gaParam);
 	~GeneticAlgorithm();
 
 	void ga_start(int max_generation);
@@ -24,6 +24,7 @@ private:
 	int generation;
 	int pop_size;
 	
+	void setDefaultGaParameters(GaParameters &gaParam);
 	bool checkHighlanderStop(int i);
 	double highlanderFitness;
 	int highlander;

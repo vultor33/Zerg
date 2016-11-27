@@ -10,11 +10,16 @@ public:
 	FuzzyAdministration(){};
 	~FuzzyAdministration();
 
-	void setFuzzyRules();
+	void setFuzzyRules(double maxEnergyVariation_in, double maxCrationRateVariation_in);
+
 	double getCreateRateVariation(double methodMean);
 
 
 private:
+	double maxEnergyVariation;
+
+	double maxCreationRateVariation;
+
 	/*
 	fl::Engine * engine;
 	fl::InputVariable* fitnessVariation;

@@ -30,7 +30,9 @@ int main()
 	int maxGeneration = 5;
 	UserFitness hk(pop_size, n_param);
 
-	GeneticAlgorithm ga1(hk,pop_size);
+	GaParameters gaParam;
+	gaParam.default = true; //input
+	GeneticAlgorithm ga1(hk,gaParam);
 	ga1.ga_start(maxGeneration);
 
 	cout << "tlu tlu tlu tlu " << endl;

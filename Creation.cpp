@@ -20,24 +20,38 @@ using namespace zerg;
 
 
 namespace zerg{
-void Creation::initialize_creation(int pop_size,
-								   int number_creation_methods, 
-								   int n_process, 
-								   ofstream &geneticOut_,
-								   GaOptions &gaoptions)
+void Creation::initialize_creation(
+	int pop_size,
+	int number_creation_methods,
+	int n_process, 
+	ofstream &geneticOut_,
+	GaOptions &gaoptions,
+	GaParameters &gaParam
+	)
 {
 	pgeneticOut_ = &geneticOut_;
 	pgaoptions_ = &gaoptions;
-	admin_.initializeAdministration(geneticOut_, pop_size, gaoptions);
+	admin_.initializeAdministration(geneticOut_, pop_size, gaoptions, gaParam);
 
 	number_methods = number_creation_methods;
 	creation_methods.resize(number_methods);
 	creation_rate.resize(number_methods);
+
+	if (gaParam.initialCreationRate.size() != number_methods)
+	{
+		cout << "ERROR ON: void Creation::initialize_creation" << endl
+			<< "initial creation rate don't match" << endl;
+		exit(1);
+	}
 	for(int i=0; i<number_methods; i++)
 	{
 		creation_methods[i].resize(pop_size+1);
-		creation_rate[i] = (1.0e0)/((double)number_methods);
+		if (gaParam.initialCreationRate.size() != 0)
+			creation_rate[i] = gaParam.initialCreationRate[i];
+		else
+			creation_rate[i] = (1.0e0)/((double)number_methods);
 	}
+
 	go_parallel_.set_number_of_processor(n_process);
 }
 

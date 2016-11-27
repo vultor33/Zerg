@@ -10,7 +10,11 @@ using namespace std;
 using namespace zerg;
 
 namespace zerg{
-void AdministrateCreation::initializeAdministration(std::ofstream &geneticOut_, int pop_size, zerg::GaOptions &gaoptions)
+void AdministrateCreation::initializeAdministration(
+	std::ofstream &geneticOut_, 
+	int pop_size, 
+	GaOptions &gaoptions,
+	GaParameters &gaParam)
 {
 	pgeneticOut_ = &geneticOut_;
 	pgaoptions_ = &gaoptions;
@@ -20,7 +24,7 @@ void AdministrateCreation::initializeAdministration(std::ofstream &geneticOut_, 
 	for(int i=0; i<pop_size/4;i++)
 		newIndividuals[i]=-1;
 
-	fuzzy_.setFuzzyRules();
+	fuzzy_.setFuzzyRules(gaParam.adminLargeEnergyVariation, gaParam.adminMaxCreationVariation);
 }
 
 void AdministrateCreation::setNewIndividuals(int newComer, int method, double fitness)

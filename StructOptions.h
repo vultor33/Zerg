@@ -20,8 +20,9 @@ struct GaParameters
 	double highlanderInitialFitness;
 	int highlanderMaxIteration;
 	std::vector<double> initialCreationRate;
+	double adminLargeEnergyVariation;
+	double adminMaxCreationVariation;
 	int predatorMethod;
-
 };
 
 }

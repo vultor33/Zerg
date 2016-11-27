@@ -27,8 +27,6 @@ private:
 						   const std::vector<double> &fitness_energies);
 
 	zerg::GaOptions * pgaoptions_;
-
-
 };
 }
 

@@ -7,6 +7,7 @@
 #include "AuxMathGa.h"
 #include "Predator.h"
 #include "Creation.h"
+#include "StructOptions.h"
 
 using namespace std;
 using namespace zerg;
@@ -14,27 +15,26 @@ using namespace zerg;
 // WARNING!!!
 // pop_size has to be multiple of four.
 namespace zerg{
-GeneticAlgorithm::GeneticAlgorithm(Population &pop_in, int pop_size_in)
+GeneticAlgorithm::GeneticAlgorithm(Population &pop_in,  GaParameters & gaParam)
 :pop(pop_in)
 {
-
-
-
+	setDefaultGaParameters(gaParam);
 	generation = 1;
-	int n_process = 1;
-	pop_size = pop_size_in;
 	highlander = 0;
-	highlanderFitness = 1.0e99;
-	highlanderMaxIteration = 50;
+	pop_size = gaParam.pop_size;
+	highlanderFitness = gaParam.highlanderInitialFitness;
+	highlanderMaxIteration = gaParam.highlanderMaxIteration;
 	geneticOut_.open("output.txt");
 
 	//initializing objects
 	pred_.initialize_predator(pop_size, gaoptions_);
-	creation_.initialize_creation(pop_size, 
-								  pop.get_number_of_creation_methods(),
-								  n_process,
-								  geneticOut_,
-								  gaoptions_);
+	creation_.initialize_creation(
+		pop_size, 
+		pop.get_number_of_creation_methods(),
+		gaParam.n_process,
+		geneticOut_,
+		gaoptions_,
+		gaParam);
 
 	setDefaultGaOptions();
 	writeOpenMessage();
@@ -83,6 +83,22 @@ void GeneticAlgorithm::setGaOptions(int flag, bool activate)
 		cout << " option of GA not found " << endl;
 		exit(2);
 	}
+}
+
+void GeneticAlgorithm::setDefaultGaParameters(GaParameters &gaParam)
+{
+	if (gaParam.default)
+	{
+		gaParam.pop_size = 40;
+		gaParam.highlanderInitialFitness = 1.0e99;
+		gaParam.highlanderMaxIteration = 50;
+		gaParam.n_process = 1;
+		gaParam.predatorMethod = 0;
+		gaParam.adminLargeEnergyVariation = 2.0e0;
+		gaParam.adminMaxCreationVariation = 0.9e0;
+	}
+
+
 }
 
 void GeneticAlgorithm::writeOpenMessage()

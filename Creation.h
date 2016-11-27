@@ -20,11 +20,14 @@ namespace zerg{
 class Creation
 {
 public:
-	void initialize_creation(int pop_size,
-		                     int number_creation_methods, 
-							 int n_process, 
-							 std::ofstream &geneticOut_,
-							 zerg::GaOptions &gaoptions);
+	void initialize_creation(
+		int pop_size,
+		int number_creation_methods, 
+		int n_process, 
+		std::ofstream &geneticOut_,
+		zerg::GaOptions &gaoptions,
+		zerg::GaParameters &gaParam);
+
 	void make_new_individuals(Population &pop, Predator &pred);
 
 private:
