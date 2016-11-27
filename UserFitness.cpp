@@ -39,9 +39,6 @@ void UserFitness::optimize(int ind_i)
 	// x_vec[ind_i] is a vector<double> -> to be optimized
 	// I want:
 	// energy[ind_i] -> fitness function 
-
-	cout << "estou aqui" << endl;
-
 	//test function
 	int size = energy.size();
 	double auxsoma = 0.0e0;

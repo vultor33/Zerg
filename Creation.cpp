@@ -78,12 +78,12 @@ void Creation::set_creation_methods(Predator &pred)
 			methodDone[creationTry] = true;
 			auxtoCreate += creation_methods[creationTry][0];
 
-			if(auxtoCreate==9)
+			if(auxtoCreate==(to_create + 1))
 			{
 				creation_methods[creationTry][0]-=1;
 				auxtoCreate--;
 			}
-			else if(auxtoCreate>9)
+			else if(auxtoCreate>(to_create + 1))
 			{
 				*pgeneticOut_ << " Erro em set_creation_method " << endl;
 				exit(1);
@@ -130,9 +130,6 @@ bool Creation::lastMethod(const vector<bool> &methodDone, std::vector<vector<int
 	}
 
 }
-
-
-
 
 void Creation::creation_from_methods(Population &pop, Predator &pred)
 {

@@ -17,6 +17,9 @@ namespace zerg{
 GeneticAlgorithm::GeneticAlgorithm(Population &pop_in, int pop_size_in)
 :pop(pop_in)
 {
+
+
+
 	generation = 1;
 	int n_process = 1;
 	pop_size = pop_size_in;

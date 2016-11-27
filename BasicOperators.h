@@ -28,7 +28,7 @@ protected:
 	//data
 	int number_of_creation_methods;
 	int n_parameters;
-	std::vector<std::vector<double>> x_vec;
+	std::vector< std::vector<double> > x_vec;
 	std::vector<double> energy;
 	std::vector<double> random_individual_range_min;
 	std::vector<double> random_individual_range_max;
