@@ -36,8 +36,10 @@ void Creation::initialize_creation(
 	number_methods = number_creation_methods;
 	creation_methods.resize(number_methods);
 	creation_rate.resize(number_methods);
+	int initialCreationSize = gaParam.initialCreationRate.size();
 
-	if (gaParam.initialCreationRate.size() != number_methods)
+	if ((initialCreationSize != number_methods) &&
+		(initialCreationSize != 0))
 	{
 		cout << "ERROR ON: void Creation::initialize_creation" << endl
 			<< "initial creation rate don't match" << endl;
@@ -46,7 +48,7 @@ void Creation::initialize_creation(
 	for(int i=0; i<number_methods; i++)
 	{
 		creation_methods[i].resize(pop_size+1);
-		if (gaParam.initialCreationRate.size() != 0)
+		if (initialCreationSize != 0)
 			creation_rate[i] = gaParam.initialCreationRate[i];
 		else
 			creation_rate[i] = (1.0e0)/((double)number_methods);
