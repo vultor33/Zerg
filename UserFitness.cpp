@@ -1,5 +1,7 @@
 #include "UserFitness.h"
 
+#include <iostream>
+
 using namespace std;
 using namespace zerg;
 
@@ -25,12 +27,20 @@ UserFitness::UserFitness(int pop_size, int number_parameters)
 
 UserFitness::~UserFitness(){}
 
+
+void UserFitness::local_optimization(int ind_i)
+{
+	optimize(ind_i);
+}
+
 void UserFitness::optimize(int ind_i)
 {
 	// you have:
 	// x_vec[ind_i] is a vector<double> -> to be optimized
 	// I want:
 	// energy[ind_i] -> fitness function 
+
+	cout << "estou aqui" << endl;
 
 	//test function
 	int size = energy.size();

@@ -5,7 +5,6 @@
 #include <fstream>
 
 #include "Population.h"
-#include "FuzzyMutation.h"
 
 namespace zerg{
 class BasicOperators : public zerg::Population
@@ -21,7 +20,7 @@ public:
 	double getfitness(int ind_i);
 	virtual void local_optimization(int ind_i);
 	virtual bool create_individual(int creation_type, int target, int parent1, int parent2);
-	bool check_similarity(int target);
+	virtual bool check_similarity(int target);
 	inline int get_number_of_creation_methods(){return number_of_creation_methods;}
 	virtual bool operatorAdministration(int method, const std::vector<double> &operatorPerformance);// modify operators
 
@@ -52,12 +51,11 @@ private:
 	virtual void optimize(int ind_i); // base first
 	void select_2_points(int &point1, int &point2);
 
-	//similarity
+	//similarity euclidean
 	bool read_file_to_check_similarity(int ind_i);
 	void append_to_similarity(int ind_i);
 	std::ofstream write_similar_;
 	std::ifstream read_similar_;
-
 };
 
 }

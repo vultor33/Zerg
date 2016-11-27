@@ -12,8 +12,11 @@ using namespace std;
 using namespace zerg;
 
 /*
-impotante: opcao para desativar as variacoes em :
+impotante: opcao para desativar variacoes e regular o que e um valor grande:
 double FuzzyAdministration::getCreateRateVariation
+
+estudo das formas de gerar clusters iniciais:
+- Tem o de sao carlos, esfera, cubo e árvore.
 
 
 */
@@ -23,11 +26,12 @@ int main()
 {
 	int pop_size = 32; //multiplo de 4 e ponto final
 	int n_param = 3;
+	int maxGeneration = 5;
 	UserFitness hk(pop_size, n_param);
+
 	GeneticAlgorithm ga1(hk,pop_size);
-	ga1.ga_start(300);
+	ga1.ga_start(maxGeneration);
 
 	cout << "tlu tlu tlu tlu " << endl;
-	cin.get();
 	return 0;
 }

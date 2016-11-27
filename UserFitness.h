@@ -7,7 +7,10 @@ class UserFitness : public UserOperators
 {
 public:
 	UserFitness(int pop_size, int number_parameters);
+
 	~UserFitness();
+
+	void local_optimization(int ind_i);
 
 private:
 	void optimize(int ind_i);

@@ -79,14 +79,14 @@ void AdministrateCreation::adminCreationMethods(Population &pop, vector<double> 
 		if(pgaoptions_->printVariationOfCreationMethods)
 		{
 			*pgeneticOut_ << "Method:  " << methodUsed[i]
-				<< "   caused a variation of:  " << varFitness
+				<< "   caused a variation on fitness of:  " << varFitness
 				<< endl;
 		}
 		newIndividuals[i] = -1;
 	}
 	if(pgaoptions_->printVariationOfCreationMethods)
 	{
-		*pgeneticOut_ << endl << "Mean variations: " << endl;
+		*pgeneticOut_ << endl << "Mean fitness variations: " << endl;
 		for(int ii=0;ii<(int)methodMean.size();ii++)
 		{
 			*pgeneticOut_ << "Method: " << ii << "   mean:  " << methodMean[ii] << endl;
@@ -125,7 +125,7 @@ void AdministrateCreation::setNewCreationRate(vector<double> &creation_rate, con
 	int nMethods = (int) methodMean.size();
 
 	if(pgaoptions_->printVariationOfCreationMethods)
-		*pgeneticOut_ << "Fuzzy result:  " << endl;
+		*pgeneticOut_ << "Factor to increase/decrease method N:  " << endl;
 
 	for(int i=0;i<nMethods;i++)
 	{
@@ -134,8 +134,11 @@ void AdministrateCreation::setNewCreationRate(vector<double> &creation_rate, con
 			creation_rate[i] += fuzzy_.getCreateRateVariation(methodMean[i]);
 			if(pgaoptions_->printVariationOfCreationMethods)
 			{
-				*pgeneticOut_ << "Variation of fuzzy: " << 
-					fuzzy_.getCreateRateVariation(methodMean[i]) << endl;
+				*pgeneticOut_ << "method " 
+					<< i 
+					<< " : "
+					<< fuzzy_.getCreateRateVariation(methodMean[i])
+					<< endl;
 			}
 			if(creation_rate[i]<0.05)
 				creation_rate[i]=0.05e0;
@@ -156,7 +159,10 @@ void AdministrateCreation::setNewCreationRate(vector<double> &creation_rate, con
 	{
 		creation_rate[k]/=auxsum;
 		if(pgaoptions_->printVariationOfCreationMethods)
-			*pgeneticOut_ << "creation_rate:  " << creation_rate[k] << endl;
+			*pgeneticOut_ 
+			<< "method " << k << " creation rate:  " 
+			<< creation_rate[k] 
+			<< endl;
 	}
 
 	if(pgaoptions_->printVariationOfCreationMethods)

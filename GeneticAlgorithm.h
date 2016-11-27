@@ -25,8 +25,8 @@ private:
 	int pop_size;
 	
 	bool checkHighlanderStop(int i);
-	int highlander;
 	double highlanderFitness;
+	int highlander;
 	int highlanderMaxIteration;
 	int highlanderFirstAppearence;
 

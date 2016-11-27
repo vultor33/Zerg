@@ -235,6 +235,7 @@ bool BasicOperators::operatorAdministration(int method, const std::vector<double
 	switch(method)
 	{
 	case 0:
+		break;
 	case 1:
 		if(operatorPerformance[0] > 2.0e0)
 			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
