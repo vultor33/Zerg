@@ -23,23 +23,22 @@ public:
 	virtual void local_optimization(int ind_i) = 0;
 
 protected:
-	//start this information here
-
+	void appendTosimilarity(int ind_i);
 
 private:
-	InitializeAtoms init_;
-
+	//set on startUserOperators()
 	int nAtoms;
 	double gamma;
 	double rca;
 	double adminLargeEnergyVariation;
 	double maxDistance;
-
-	void appendTosimilarity(int ind_i);
+	double distanceDiffererenceThreshold;
 
 	std::vector<double> calcAndSortAllDistances(std::vector<double> &x);
 
 	std::vector< std::vector<double> > allDistances;
+
+	InitializeAtoms init_;
 
 };
 

@@ -1,5 +1,7 @@
 #include "ClustersFitness.h"
 
+#include "Fitness.h"
+
 #include <iostream>
 
 using namespace std;
@@ -15,6 +17,8 @@ ClustersFitness::ClustersFitness(int pop_size, int number_parameters)
 		random_individual_range_max[j] = 1.0e0;
 	}
 
+
+	// ATENCAO  - ATIVAR O CHECK SIMILARITY AQUI
 	// starting first population - default rules
 	bool aux;
 	for(int i=0; i<pop_size; i++)
@@ -32,6 +36,7 @@ ClustersFitness::~ClustersFitness(){}
 void ClustersFitness::local_optimization(int ind_i)
 {
 	optimize(ind_i);
+	appendTosimilarity(ind_i);
 }
 
 void ClustersFitness::optimize(int ind_i)
@@ -40,12 +45,7 @@ void ClustersFitness::optimize(int ind_i)
 	// x_vec[ind_i] is a vector<double> -> to be optimized
 	// I want:
 	// energy[ind_i] -> fitness function 
-	//test function
-	int size = energy.size();
-	double auxsoma = 0.0e0;
-	for(int j=0; j<n_parameters; j++)
-	{
-		auxsoma += x_vec[ind_i][j]*x_vec[ind_i][j];
-	}
-	energy[ind_i] = auxsoma;
+
+	Fitness fit_;
+	energy[ind_i] = fit_.fit(x_vec[ind_i], 0);
 }
