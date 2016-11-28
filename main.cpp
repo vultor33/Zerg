@@ -7,6 +7,7 @@
 #include "GeneticAlgorithm.h"
 #include "Hooklaw.h"
 #include "UserFitness.h"
+#include "AuxMathGa.h"
 
 using namespace std;
 using namespace zerg;
@@ -25,6 +26,8 @@ estudo das formas de gerar clusters iniciais:
 */
 int main()
 {
+	AuxMathGa::set_seed(3);
+
 	int pop_size = 80; //multiplo de 4 e ponto final
 	int n_param = 3;
 	int maxGeneration = 5;
