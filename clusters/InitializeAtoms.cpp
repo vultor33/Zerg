@@ -1,5 +1,7 @@
 #include "InitializeAtoms.h"
 
+#include <iostream>
+
 #include "../AuxMathGa.h"
 
 using namespace std;
@@ -62,13 +64,14 @@ vector<double> InitializeAtoms::generateClusterFred(int natm_in, double gamma_in
 
 	double rSphere = 0.8e0 * Rca *
 		(0.5e0 + pow((3.0e0 * (double)natm) / pi4sqr2, exp3));
-	double lowerLimit = 2.0e0 * (1.0e0 - gamma) * Rca;
+	double lowerLimit = (1.0e0 - gamma) * Rca;
 	vector<double> x(3 * natm);
 	double r, teta, fi;
 	double xi, yi, zi;
 	int breakLoop = 0;
 	for (int i = 0; i < natm; i++)
 	{
+		int k = 0;
 		do
 		{
 			r = AuxMathGa::randomNumber(0.0e0, rSphere);
@@ -81,6 +84,13 @@ vector<double> InitializeAtoms::generateClusterFred(int natm_in, double gamma_in
 			x[i] = xi;
 			x[i + natm] = yi;
 			x[i + 2 * natm] = zi;
+			k++;
+			if (k > 1000000)
+			{
+				cout << "infinity loop on Initialize atoms - check your parameters" << endl;
+				exit(1);
+			}
+				
 		} while (findMinimumDistanceUntilActualI(x, i) < lowerLimit);
 	}
 

@@ -9,6 +9,8 @@
 #include "UserFitness.h"
 #include "AuxMathGa.h"
 
+#include "clusters\InitializeAtoms.h"
+
 using namespace std;
 using namespace zerg;
 
@@ -24,17 +26,38 @@ estudo das formas de gerar clusters iniciais:
 
 
 */
+
+void printAtomsVectorDouble(vector<double> & atoms)
+{
+	int natm = atoms.size() / 3;
+	ofstream teste_("teste.xyz");
+	teste_ << natm << endl << "t" << endl;
+	for (int i = 0; i < natm; i++)
+	{
+		teste_ << "H "
+			<< atoms[i] << "  "
+			<< atoms[i + natm] << "  "
+			<< atoms[i + 2 * natm] << endl;
+	}
+	teste_.close();
+}
+
 int main()
 {
 	AuxMathGa::set_seed(3);
+
+	GaParameters gaParam;
+	gaParam.default = true; //input
+
+	InitializeAtoms init_;
+	vector<double> atomos = init_.generateCluster(4, 0.1e0, 1);
+	printAtomsVectorDouble(atomos);
 
 	int pop_size = 80; //multiplo de 4 e ponto final
 	int n_param = 3;
 	int maxGeneration = 5;
 	UserFitness hk(pop_size, n_param);
 
-	GaParameters gaParam;
-	gaParam.default = true; //input
 	GeneticAlgorithm ga1(hk,gaParam);
 	ga1.ga_start(maxGeneration);
 

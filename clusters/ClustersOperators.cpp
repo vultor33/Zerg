@@ -1,6 +1,7 @@
 #include "ClustersOperators.h"
 
 #include <iostream>
+#include <algorithm>
 
 #include "../AuxMathGa.h"
 
@@ -19,7 +20,13 @@ ClustersOperators::~ClustersOperators(){}
 
 void ClustersOperators::startUserOperators()
 {
-	startBasicOperators();
+	mutationValue = 0.1e0;
+	crossoverWeight = 0.7e0;
+	crossoverProbability = 0.7e0;
+
+	//definir gamma, rca, adminLargeEnergyVariation
+
+//	startBasicOperators();
 }
 
 bool ClustersOperators::create_individual(int creation_type,int target, int parent1, int parent2)
@@ -61,17 +68,17 @@ bool ClustersOperators::operatorAdministration(int method, const std::vector<dou
 	case 0:
 		break;
 	case 1:
-		if(operatorPerformance[0] > 2.0e0)
+		if(operatorPerformance[0] > adminLargeEnergyVariation)
 			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
 		break;
 	case 2:
 		break;
 	case 3:
-		if(operatorPerformance[0] > 2.0e0)
+		if(operatorPerformance[0] > adminLargeEnergyVariation)
 			mutationValue = AuxMathGa::randomNumber(0.05e0,0.3e0);
 		break;
 	case 4:
-		if(operatorPerformance[0] > 2.0e0)
+		if(operatorPerformance[0] > adminLargeEnergyVariation)
 			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
 		break;
 	default:
@@ -82,6 +89,49 @@ bool ClustersOperators::operatorAdministration(int method, const std::vector<dou
 }
 
 
+
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/// OPERATORS DEFINITIONS ///////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+
+
+void ClustersOperators::appendTosimilarity(int ind_i)
+{
+	vector<double> auxDistances = calcAndSortAllDistances(x_vec[ind_i]);
+	allDistances.push_back(auxDistances);
+}
+
+std::vector<double> ClustersOperators::calcAndSortAllDistances(std::vector<double> &x)
+{
+	vector<double> auxDistances;
+	for (int i = 0; i < (nAtoms - 1); i++)
+	{
+		for (int j = (i + 1); j < nAtoms; j++)
+		{
+			double dist = init_.calcDist(x_vec[i], i, j);
+			auxDistances.push_back(dist);
+		}
+	}
+	sort(auxDistances.begin(), auxDistances.end());
+	return auxDistances;
+}
+
+bool ClustersOperators::check_similarity(int target)
+{
+	vector<double> auxDistance = calcAndSortAllDistances(x_vec[target]);
+
+	if (auxDistance[auxDistance.size() - 1] > maxDistance)
+		return false;
+
+
+
+}
 
 
 

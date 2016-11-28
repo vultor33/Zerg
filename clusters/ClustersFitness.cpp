@@ -22,6 +22,7 @@ ClustersFitness::ClustersFitness(int pop_size, int number_parameters)
 		aux = create_individual(0,i,0,0); //method 0 always random
 		local_optimization(i);
 	}
+
 	startUserOperators();
 }
 
