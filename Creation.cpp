@@ -32,6 +32,7 @@ void Creation::initialize_creation(
 	pgeneticOut_ = &geneticOut_;
 	pgaoptions_ = &gaoptions;
 	admin_.initializeAdministration(geneticOut_, pop_size, gaoptions, gaParam);
+	insistOnSimilar = gaParam.insistOnSimilar;
 
 	number_methods = number_creation_methods;
 	creation_methods.resize(number_methods);
@@ -149,7 +150,7 @@ bool Creation::lastMethod(const vector<bool> &methodDone, std::vector<vector<int
 
 void Creation::creation_from_methods(Population &pop, Predator &pred)
 {
-	bool aux1,is_similar;
+	bool aux1;
 	int parent1=0;
 	int parent2=0;
 	int target;
@@ -162,7 +163,7 @@ void Creation::creation_from_methods(Population &pop, Predator &pred)
 			int similar_cont = 0;
 
 			// repeat until is different
-			do
+			for (int i = 0; i < insistOnSimilar; i++)
 			{
 				select_parents(pred,parent1,parent2);
 				aux1 = pop.create_individual(method, 
@@ -170,15 +171,11 @@ void Creation::creation_from_methods(Population &pop, Predator &pred)
 											parent1, 
 											parent2);
 
-				is_similar = pop.check_similarity(target);
-
-				similar_cont++;
-				if(similar_cont>29)
-				{
-					printSimilarityProblem(method);
+				if (!pop.check_similarity(target))
 					break;
-				}
-			} while(is_similar);
+				if (i == (insistOnSimilar - 1))
+					printSimilarityProblem(method);
+			}
 
 			admin_.setNewIndividuals(target,
 									 method,

@@ -18,7 +18,6 @@ namespace zerg{
 GeneticAlgorithm::GeneticAlgorithm(Population &pop_in,  GaParameters & gaParam)
 :pop(pop_in)
 {
-	setDefaultGaParameters(gaParam);
 	generation = 1;
 	highlander = 0;
 	pop_size = gaParam.pop_size;
@@ -83,22 +82,6 @@ void GeneticAlgorithm::setGaOptions(int flag, bool activate)
 		cout << " option of GA not found " << endl;
 		exit(2);
 	}
-}
-
-void GeneticAlgorithm::setDefaultGaParameters(GaParameters &gaParam)
-{
-	if (gaParam.default)
-	{
-		gaParam.pop_size = 40;
-		gaParam.highlanderInitialFitness = 1.0e99;
-		gaParam.highlanderMaxIteration = 50;
-		gaParam.n_process = 1;
-		gaParam.predatorMethod = 0;
-		gaParam.adminLargeEnergyVariation = 2.0e0;
-		gaParam.adminMaxCreationVariation = 0.9e0;
-	}
-
-
 }
 
 void GeneticAlgorithm::writeOpenMessage()

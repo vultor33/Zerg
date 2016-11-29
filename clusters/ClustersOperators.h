@@ -5,6 +5,7 @@
 
 #include "InitializeAtoms.h"
 #include "../BasicOperators.h"
+#include "../StructOptions.h"
 
 class ClustersOperators : public zerg::BasicOperators
 {
@@ -13,7 +14,7 @@ public:
 	~ClustersOperators();
 
 	//reimplement or use basic
-	void startUserOperators();//final adjustments  (like crossover probability)
+	void startClustersOperators(zerg::GaParameters & gaParam);//final adjustments  (like crossover probability)
 
 	bool create_individual(int creation_type, int target, int parent1, int parent2);
 	bool operatorAdministration(int method, const std::vector<double> &operatorPerformance);// modify operators with it's performance
@@ -33,6 +34,11 @@ private:
 	double adminLargeEnergyVariation;
 	double maxDistance;
 	double distanceDiffererenceThreshold;
+
+	bool sphereCutAndSplice(int target, int parent1, int parent2);
+	void translateToGeometricCenter(std::vector<double> & x);
+	std::vector<double> calculateRadius(std::vector<double> &x);
+
 
 	std::vector<double> calcAndSortAllDistances(std::vector<double> &x);
 

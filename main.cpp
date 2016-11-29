@@ -24,6 +24,8 @@ estudo das formas de gerar clusters iniciais:
 - ele checa similaridade so 30 vezes, se nao passar vai igual mesmo.
   observar isso.
 
+- gerador de condicao inicial muito ruim (nao consegue 50 atomos)
+
 
 */
 
@@ -46,12 +48,12 @@ int main()
 {
 	AuxMathGa::set_seed(3);
 
-	GaParameters gaParam;
-	gaParam.default = true; //input
-
+	GaParameters gaParam; //NAO TEM DEFAULT
 	InitializeAtoms init_;
-	vector<double> atomos = init_.generateCluster(4, 0.1e0, 1);
+	vector<double> atomos = init_.generateCluster(15, 0.1e0, 1);
+	vector<double> atomos2 = init_.generateCluster(15, 0.1e0, 1);
 	printAtomsVectorDouble(atomos);
+
 
 	int pop_size = 80; //multiplo de 4 e ponto final
 	int n_param = 3;
@@ -64,3 +66,23 @@ int main()
 	cout << "tlu tlu tlu tlu " << endl;
 	return 0;
 }
+
+/*
+void GeneticAlgorithm::setDefaultGaParameters(GaParameters &gaParam)
+{
+	mutationValue = gaParam.mutationValue;
+	crossoverWeight = gaParam.crossoverWeight;
+	crossoverProbability = gaParam.corssoverProbability;
+	gamma = gaParam.gammaInitializeAtoms;
+	rca = gaParam.rcaInitializeAtoms;
+	adminLargeEnergyVariation = gaParam.adminLargeEnergyVariation;
+	gaParam.pop_size = 40;
+	gaParam.highlanderInitialFitness = 1.0e99;
+	gaParam.highlanderMaxIteration = 50;
+	gaParam.n_process = 1;
+	gaParam.predatorMethod = 0;
+	gaParam.adminLargeEnergyVariation = 2.0e0;
+	gaParam.adminMaxCreationVariation = 0.9e0;
+}
+
+*/

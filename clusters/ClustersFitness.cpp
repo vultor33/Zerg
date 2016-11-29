@@ -1,33 +1,33 @@
 #include "ClustersFitness.h"
 
 #include "Fitness.h"
+#include "../StructOptions.h"
 
 #include <iostream>
 
 using namespace std;
 using namespace zerg;
 
-ClustersFitness::ClustersFitness(int pop_size, int number_parameters)
+ClustersFitness::ClustersFitness(int pop_size, int number_parameters, GaParameters & gaParam)
 :ClustersOperators(pop_size, number_parameters)
 {
-	// set acceptable creation range - required
-	for(int j = 0; j<number_parameters; j++)
-	{
-		random_individual_range_min[j] = -1.e0;
-		random_individual_range_max[j] = 1.0e0;
-	}
-
 
 	// ATENCAO  - ATIVAR O CHECK SIMILARITY AQUI
 	// starting first population - default rules
 	bool aux;
-	for(int i=0; i<pop_size; i++)
+	aux = create_individual(0, 0, 0, 0); //method 0 always random
+	for(int i=1; i<pop_size; i++)
 	{
-		aux = create_individual(0,i,0,0); //method 0 always random
+		for (int i = 0; i < gaParam.insistOnSimilar; i++)
+		{
+			aux = create_individual(0, i, 0, 0); //method 0 always random
+			if (!check_similarity(i))
+				break;
+		}		
 		local_optimization(i);
 	}
 
-	startUserOperators();
+	startClustersOperators(gaParam);
 }
 
 ClustersFitness::~ClustersFitness(){}

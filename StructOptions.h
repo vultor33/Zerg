@@ -14,7 +14,6 @@ struct GaOptions
 
 struct GaParameters
 {
-	bool default;
 	int n_process;
 	int pop_size;
 	double highlanderInitialFitness;
@@ -23,6 +22,14 @@ struct GaParameters
 	double adminLargeEnergyVariation;
 	double adminMaxCreationVariation;
 	int predatorMethod;
+	double mutationValue;
+	double crossoverWeight;
+	double corssoverProbability;
+	double gammaInitializeAtoms;
+	double rcaInitializeAtoms;
+	int insistOnSimilar;
+
+
 };
 
 }

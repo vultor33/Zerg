@@ -32,6 +32,7 @@ public:
 
 private:
 	int number_methods;
+	int insistOnSimilar;
 
 	// creation methods administration
 	std::vector<std::vector<int>> creation_methods; // quantity[0] and individuals to create

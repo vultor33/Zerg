@@ -24,7 +24,6 @@ private:
 	int generation;
 	int pop_size;
 	
-	void setDefaultGaParameters(GaParameters &gaParam);
 	bool checkHighlanderStop(int i);
 	double highlanderFitness;
 	int highlander;

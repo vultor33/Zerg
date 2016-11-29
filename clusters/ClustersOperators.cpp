@@ -4,6 +4,7 @@
 #include <algorithm>
 
 #include "../AuxMathGa.h"
+#include "../StructOptions.h"
 
 using namespace std;
 using namespace zerg;
@@ -11,21 +12,20 @@ using namespace zerg;
 ClustersOperators::ClustersOperators(int pop_size, int number_parameters)
 :BasicOperators(pop_size, number_parameters)
 {
-//	number_of_creation_methods = 6;
-//	tol_similarity = 1.0e-2;
-
+	number_of_creation_methods = 6;
+	tol_similarity = 3.0e-2;
 }
 
 ClustersOperators::~ClustersOperators(){}
 
-void ClustersOperators::startUserOperators()
+void ClustersOperators::startClustersOperators(GaParameters & gaParam)
 {
-	mutationValue = 0.1e0;
-	crossoverWeight = 0.7e0;
-	crossoverProbability = 0.7e0;
-
-	//definir gamma, rca, adminLargeEnergyVariation
-
+	mutationValue = gaParam.mutationValue;
+	crossoverWeight = gaParam.crossoverWeight;
+	crossoverProbability = gaParam.corssoverProbability;	
+	gamma = gaParam.gammaInitializeAtoms;
+	rca = gaParam.rcaInitializeAtoms;
+	adminLargeEnergyVariation = gaParam.adminLargeEnergyVariation;
 }
 
 bool ClustersOperators::create_individual(int creation_type,int target, int parent1, int parent2)
@@ -52,6 +52,11 @@ bool ClustersOperators::create_individual(int creation_type,int target, int pare
 		make_crossover_probability(target, parent1, parent2);
 		break;
 
+	case 5:
+		if (!sphereCutAndSplice(target, parent1, parent2))
+			make_mutation(target, parent1);
+		break;
+
 	default:
 		cout << "Creation type not avaible" << endl;
 		return false;
@@ -66,20 +71,28 @@ bool ClustersOperators::operatorAdministration(int method, const std::vector<dou
 	{
 	case 0:
 		break;
+
 	case 1:
 		if(operatorPerformance[0] > adminLargeEnergyVariation)
 			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
 		break;
+
 	case 2:
 		break;
+
 	case 3:
 		if(operatorPerformance[0] > adminLargeEnergyVariation)
 			mutationValue = AuxMathGa::randomNumber(0.05e0,0.3e0);
 		break;
+
 	case 4:
 		if(operatorPerformance[0] > adminLargeEnergyVariation)
 			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
 		break;
+
+	case 5:
+		break;
+
 	default:
 		cout << " administration of this operator undefined - contact developers " << endl;
 		exit(2);
@@ -154,4 +167,99 @@ bool ClustersOperators::check_similarity(int target)
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////
+
+bool ClustersOperators::sphereCutAndSplice(int target, int parent1, int parent2)
+{
+	vector<double> x1 = x_vec[parent1];
+	vector<double> x2 = x_vec[parent2];
+	translateToGeometricCenter(x1);
+	translateToGeometricCenter(x2);
+	vector<double> r1 = calculateRadius(x1);
+	vector<double> r2 = calculateRadius(x2);
+
+	int natm = r1.size();
+
+	vector<int> atomPositions1(natm);
+	for (int i = 0; i < natm; i++)
+		atomPositions1[i] = i;
+	vector<int> atomPositions2 = atomPositions1;
+
+	vector<int> order1 = AuxMathGa::vector_ordering(r1);
+
+	vector<int> order2 = AuxMathGa::vector_ordering(r2);
+
+	//find M (check: A sphere-cut-splice crossover for the evolution of cluster structures)
+	int M = -1;
+	for (int i = 0; i < (natm - 1); i++)
+	{
+		if ((r1[i] < r2[i + 1]) && (r2[i] < r1[i + 1]))
+			M++;
+		else
+			break;
+	}
+
+	if (M == -1)
+		return false;
+
+	AuxMathGa::vector_ordering_with_instructions(atomPositions1, order1);
+	AuxMathGa::vector_ordering_with_instructions(atomPositions2, order2);
+
+	int m = AuxMathGa::randomNumber(0, M);
+	//change to target
+	int takeAtomI;
+	for (int i = 0; i < natm; i++)
+	{
+		if (i <= m)
+		{
+			takeAtomI = atomPositions1[i];
+			x_vec[target][i] = x1[takeAtomI];
+			x_vec[target][i + natm] = x1[takeAtomI + natm];
+			x_vec[target][i + 2 * natm] = x1[takeAtomI + 2 * natm];
+		}
+		else
+		{
+			takeAtomI = atomPositions2[i];
+			x_vec[target][i] = x2[takeAtomI];
+			x_vec[target][i + natm] = x2[takeAtomI + natm];
+			x_vec[target][i + 2 * natm] = x2[takeAtomI + 2 * natm];
+		}
+	}
+	return true;
+}
+
+void ClustersOperators::translateToGeometricCenter(vector<double> & x)
+{
+	int natm = x.size() / 3;
+	double xcm = 0.0e0;
+	double ycm = 0.0e0;
+	double zcm = 0.0e0;
+	for (int i = 0; i < natm; i++)
+	{
+		xcm += x[i];
+		ycm += x[i + natm];
+		zcm += x[i + 2 * natm];
+	}
+	xcm /= natm;
+	ycm /= natm;
+	zcm /= natm;
+	for (int i = 0; i < natm; i++)
+	{
+		x[i] -= xcm;
+		x[i + natm] -= ycm;
+		x[i + 2 * natm] -= zcm;
+	}
+}
+
+vector<double> ClustersOperators::calculateRadius(vector<double> &x)
+{
+	int natm = x.size() / 3;
+	vector<double> radius(natm);
+	for (int i = 0; i < natm; i++)
+		radius[i] = sqrt(x[i] * x[i] +
+			x[i + natm] * x[i + natm] +
+			x[i + 2 * natm] * x[i + 2 * natm]);
+
+	return radius;
+}
+
 
