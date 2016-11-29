@@ -19,6 +19,7 @@ GeneticAlgorithm::GeneticAlgorithm(Population &pop_in,  GaParameters & gaParam)
 :pop(pop_in)
 {
 	generation = 1;
+	maxGeneration = gaParam.maxGeneration;
 	highlander = 0;
 	pop_size = gaParam.pop_size;
 	highlanderFitness = gaParam.highlanderInitialFitness;
@@ -45,9 +46,9 @@ GeneticAlgorithm::~GeneticAlgorithm()
 	geneticOut_.close();
 }
 
-void GeneticAlgorithm::ga_start(int max_generation)
+void GeneticAlgorithm::ga_start()
 {
-	for (int i = 1; i <= max_generation; i++)
+	for (int i = 1; i <= maxGeneration; i++)
 	{
 		geneticOut_ << "Generation:  " << i << endl;
 		predation();

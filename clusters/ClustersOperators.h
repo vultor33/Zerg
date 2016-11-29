@@ -33,7 +33,6 @@ private:
 	double rca;
 	double adminLargeEnergyVariation;
 	double maxDistance;
-	double distanceDiffererenceThreshold;
 
 	bool sphereCutAndSplice(int target, int parent1, int parent2);
 	void translateToGeometricCenter(std::vector<double> & x);

@@ -73,41 +73,31 @@ void Creation::make_new_individuals(Population &pop, Predator &pred)
 void Creation::set_creation_methods(Predator &pred)
 {
 	double to_create = (double)pred.dead_individuals.size();
-	vector<bool> methodDone(number_methods);
-	for(int i=0; i<number_methods; i++)
+
+	// normalize number of creations
+	int numberToCreateOnCreationMethods = 0;
+	for (int i = 0; i < number_methods; i++)
 	{
-		methodDone[i] = false;
+		creation_methods[i][0] = (int)floor(0.5e0 + to_create*creation_rate[i]);
+		numberToCreateOnCreationMethods += creation_methods[i][0];
 	}
-
-	// set number for each method
-	int creationTry;
-	int auxtoCreate = 0;
-	for(;;)
+	int normalizeNumberToCreate;
+	while (numberToCreateOnCreationMethods != pred.dead_individuals.size())
 	{
-		creationTry = AuxMathGa::randomNumber(0,number_methods-1);
-		if(lastMethod(methodDone, creation_methods, (int)to_create - auxtoCreate))
+		if (numberToCreateOnCreationMethods > (int)pred.dead_individuals.size())
 		{
-			break;
+			normalizeNumberToCreate = AuxMathGa::randomNumber(0, number_methods - 1);
+			if (creation_methods[normalizeNumberToCreate][0] > 0)
+				creation_methods[normalizeNumberToCreate][0]--;
+			numberToCreateOnCreationMethods--;
 		}
-		else if(!methodDone[creationTry])
+		else
 		{
-			creation_methods[creationTry][0] = (int) floor(0.5e0+to_create*creation_rate[creationTry]);
-			methodDone[creationTry] = true;
-			auxtoCreate += creation_methods[creationTry][0];
-
-			if(auxtoCreate==(to_create + 1))
-			{
-				creation_methods[creationTry][0]-=1;
-				auxtoCreate--;
-			}
-			else if(auxtoCreate>(to_create + 1))
-			{
-				*pgeneticOut_ << " Erro em set_creation_method " << endl;
-				exit(1);
-			}
+			normalizeNumberToCreate = AuxMathGa::randomNumber(0, number_methods - 1);
+			creation_methods[normalizeNumberToCreate][0]++;
+			numberToCreateOnCreationMethods++;
 		}
 	}
-
 
 	// set individuals to be created from dead (1,12 etc.)
 	int dead = 0;
@@ -122,31 +112,6 @@ void Creation::set_creation_methods(Predator &pred)
 }
 
 
-bool Creation::lastMethod(const vector<bool> &methodDone, std::vector<vector<int>> &creation_methods, int createLast)
-{
-	int lastPos = -1;
-	bool lastFlag = false;
-	int auxSum = 0;
-	for(int i=0; i<(int)methodDone.size();i++)
-	{
-		auxSum += (int)methodDone[i];
-		if(!methodDone[i])
-		{
-			lastPos = i;
-		}
-	}
-
-	if(auxSum!=((int)methodDone.size()-1))
-	{
-		return false;
-	}
-	else
-	{
-		creation_methods[lastPos][0] = createLast;
-		return true;
-	}
-
-}
 
 void Creation::creation_from_methods(Population &pop, Predator &pred)
 {
@@ -163,7 +128,7 @@ void Creation::creation_from_methods(Population &pop, Predator &pred)
 			int similar_cont = 0;
 
 			// repeat until is different
-			for (int i = 0; i < insistOnSimilar; i++)
+			for (int k = 0; k < insistOnSimilar; k++)
 			{
 				select_parents(pred,parent1,parent2);
 				aux1 = pop.create_individual(method, 
@@ -173,7 +138,7 @@ void Creation::creation_from_methods(Population &pop, Predator &pred)
 
 				if (!pop.check_similarity(target))
 					break;
-				if (i == (insistOnSimilar - 1))
+				if (k == (insistOnSimilar - 1))
 					printSimilarityProblem(method);
 			}
 
@@ -235,3 +200,70 @@ void Creation::printSimilarityProblem(int method)
 
 
 }
+
+
+
+/*  OLD NORMALIZATION
+
+vector<bool> methodDone(number_methods);
+for(int i=0; i<number_methods; i++)
+{
+methodDone[i] = false;
+}
+
+
+
+for(;;)
+{
+creationTry = AuxMathGa::randomNumber(0,number_methods-1);
+if(lastMethod(methodDone, creation_methods, (int)to_create - auxtoCreate))
+{
+break;
+}
+else if(!methodDone[creationTry])
+{
+creation_methods[creationTry][0] = (int) floor(0.5e0+to_create*creation_rate[creationTry]);
+methodDone[creationTry] = true;
+auxtoCreate += creation_methods[creationTry][0];
+
+if(auxtoCreate==(to_create + 1))
+{
+creation_methods[creationTry][0]-=1;
+auxtoCreate--;
+}
+else if(auxtoCreate>(to_create + 1))
+{
+*pgeneticOut_ << " Erro em set_creation_method " << endl;
+exit(1);
+}
+}
+}
+
+bool Creation::lastMethod(const vector<bool> &methodDone, std::vector<vector<int>> &creation_methods, int createLast)
+{
+int lastPos = -1;
+bool lastFlag = false;
+int auxSum = 0;
+for(int i=0; i<(int)methodDone.size();i++)
+{
+auxSum += (int)methodDone[i];
+if(!methodDone[i])
+{
+lastPos = i;
+}
+}
+
+if(auxSum!=((int)methodDone.size()-1))
+{
+return false;
+}
+else
+{
+creation_methods[lastPos][0] = createLast;
+return true;
+}
+
+}
+
+
+*/

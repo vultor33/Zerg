@@ -16,13 +16,14 @@ public:
 	GeneticAlgorithm(zerg::Population &Pop_in,GaParameters & gaParam);
 	~GeneticAlgorithm();
 
-	void ga_start(int max_generation);
+	void ga_start();
 
 	void setGaOptions(int flag,bool activate);
 
 private:
 	int generation;
 	int pop_size;
+	int maxGeneration;
 	
 	bool checkHighlanderStop(int i);
 	double highlanderFitness;

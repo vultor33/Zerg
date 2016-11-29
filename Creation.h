@@ -37,7 +37,6 @@ private:
 	// creation methods administration
 	std::vector<std::vector<int>> creation_methods; // quantity[0] and individuals to create
 	std::vector<double> creation_rate;// how much will be created %
-	bool lastMethod(const std::vector<bool> &methodDone, std::vector<std::vector<int>> &creation_methods, int createLast);
 
 	void set_creation_methods(Predator &pred);
 	void creation_from_methods(Population &pop, Predator &pred);

@@ -16,18 +16,21 @@ struct GaParameters
 {
 	int n_process;
 	int pop_size;
+	int maxGeneration;
 	double highlanderInitialFitness;
 	int highlanderMaxIteration;
-	std::vector<double> initialCreationRate;
 	double adminLargeEnergyVariation;
 	double adminMaxCreationVariation;
 	int predatorMethod;
 	double mutationValue;
 	double crossoverWeight;
 	double corssoverProbability;
+	int numberOfParameters;
 	double gammaInitializeAtoms;
 	double rcaInitializeAtoms;
+	double maxDistance;
 	int insistOnSimilar;
+	std::vector<double> initialCreationRate;
 
 
 };

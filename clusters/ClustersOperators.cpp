@@ -23,8 +23,10 @@ void ClustersOperators::startClustersOperators(GaParameters & gaParam)
 	mutationValue = gaParam.mutationValue;
 	crossoverWeight = gaParam.crossoverWeight;
 	crossoverProbability = gaParam.corssoverProbability;	
+	nAtoms = gaParam.numberOfParameters / 3;
 	gamma = gaParam.gammaInitializeAtoms;
 	rca = gaParam.rcaInitializeAtoms;
+	maxDistance = gaParam.maxDistance;
 	adminLargeEnergyVariation = gaParam.adminLargeEnergyVariation;
 }
 
@@ -126,7 +128,7 @@ std::vector<double> ClustersOperators::calcAndSortAllDistances(std::vector<doubl
 	{
 		for (int j = (i + 1); j < nAtoms; j++)
 		{
-			double dist = init_.calcDist(x_vec[i], i, j);
+			double dist = init_.calcDist(x, i, j);
 			auxDistances.push_back(dist);
 		}
 	}
@@ -149,7 +151,7 @@ bool ClustersOperators::check_similarity(int target)
 			distanceDiffererence += abs(auxDistance[k] - allDistances[i][k]);
 
 		distanceDiffererence /= (double)size;
-		if (distanceDiffererence < distanceDiffererenceThreshold)
+		if (distanceDiffererence < tol_similarity)
 			return true;
 	}
 	return false;

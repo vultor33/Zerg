@@ -7,7 +7,7 @@
 class ClustersFitness : public ClustersOperators
 {
 public:
-	ClustersFitness(int pop_size, int number_parameters, zerg::GaParameters & gaParam);
+	ClustersFitness(zerg::GaParameters & gaParam);
 
 	~ClustersFitness();
 

@@ -10,6 +10,7 @@
 #include "AuxMathGa.h"
 
 #include "clusters\InitializeAtoms.h"
+#include "clusters\ClustersFitness.h"
 
 using namespace std;
 using namespace zerg;
@@ -29,6 +30,26 @@ estudo das formas de gerar clusters iniciais:
 
 */
 
+void printAtomsVectorDouble(vector<double> & atoms);
+
+void setGaParamDefaults(GaParameters & gaParam);
+
+int main()
+{
+	AuxMathGa::set_seed(3);
+
+	GaParameters gaParam;
+	setGaParamDefaults(gaParam);
+//	gaParam.maxGeneration = 5;
+	ClustersFitness clFit_(gaParam);
+
+	GeneticAlgorithm ga1(clFit_,gaParam);
+	ga1.ga_start();
+
+	cout << "tlu tlu tlu tlu " << endl;
+	return 0;
+}
+
 void printAtomsVectorDouble(vector<double> & atoms)
 {
 	int natm = atoms.size() / 3;
@@ -44,45 +65,24 @@ void printAtomsVectorDouble(vector<double> & atoms)
 	teste_.close();
 }
 
-int main()
+void setGaParamDefaults(GaParameters & gaParam)
 {
-	AuxMathGa::set_seed(3);
-
-	GaParameters gaParam; //NAO TEM DEFAULT
-	InitializeAtoms init_;
-	vector<double> atomos = init_.generateCluster(15, 0.1e0, 1);
-	vector<double> atomos2 = init_.generateCluster(15, 0.1e0, 1);
-	printAtomsVectorDouble(atomos);
-
-
-	int pop_size = 80; //multiplo de 4 e ponto final
-	int n_param = 3;
-	int maxGeneration = 5;
-	UserFitness hk(pop_size, n_param);
-
-	GeneticAlgorithm ga1(hk,gaParam);
-	ga1.ga_start(maxGeneration);
-
-	cout << "tlu tlu tlu tlu " << endl;
-	return 0;
-}
-
-/*
-void GeneticAlgorithm::setDefaultGaParameters(GaParameters &gaParam)
-{
-	mutationValue = gaParam.mutationValue;
-	crossoverWeight = gaParam.crossoverWeight;
-	crossoverProbability = gaParam.corssoverProbability;
-	gamma = gaParam.gammaInitializeAtoms;
-	rca = gaParam.rcaInitializeAtoms;
-	adminLargeEnergyVariation = gaParam.adminLargeEnergyVariation;
-	gaParam.pop_size = 40;
-	gaParam.highlanderInitialFitness = 1.0e99;
-	gaParam.highlanderMaxIteration = 50;
 	gaParam.n_process = 1;
-	gaParam.predatorMethod = 0;
+	gaParam.pop_size = 200;
+	gaParam.maxGeneration = 500;
+	gaParam.highlanderInitialFitness = 1.0e99;
+	gaParam.highlanderMaxIteration = 100;
 	gaParam.adminLargeEnergyVariation = 2.0e0;
 	gaParam.adminMaxCreationVariation = 0.9e0;
+	gaParam.predatorMethod = 0;
+	gaParam.mutationValue = 0.1e0;
+	gaParam.crossoverWeight = 0.7e0;
+	gaParam.corssoverProbability = 0.7e0;
+	gaParam.numberOfParameters = 21;
+	gaParam.gammaInitializeAtoms = 0.2;
+	gaParam.rcaInitializeAtoms = 1.0;
+	gaParam.maxDistance = 1.0e99;
+	gaParam.insistOnSimilar = 30;
 }
 
-*/
+

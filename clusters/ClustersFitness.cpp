@@ -8,17 +8,20 @@
 using namespace std;
 using namespace zerg;
 
-ClustersFitness::ClustersFitness(int pop_size, int number_parameters, GaParameters & gaParam)
-:ClustersOperators(pop_size, number_parameters)
+ClustersFitness::ClustersFitness(GaParameters & gaParam)
+:ClustersOperators(gaParam.pop_size, gaParam.numberOfParameters)
 {
 
 	// ATENCAO  - ATIVAR O CHECK SIMILARITY AQUI
 	// starting first population - default rules
+	startClustersOperators(gaParam);
+
 	bool aux;
 	aux = create_individual(0, 0, 0, 0); //method 0 always random
-	for(int i=1; i<pop_size; i++)
+	local_optimization(0);
+	for(int i=1; i<gaParam.pop_size; i++)
 	{
-		for (int i = 0; i < gaParam.insistOnSimilar; i++)
+		for (int k = 0; k < gaParam.insistOnSimilar; k++)
 		{
 			aux = create_individual(0, i, 0, 0); //method 0 always random
 			if (!check_similarity(i))
@@ -27,7 +30,6 @@ ClustersFitness::ClustersFitness(int pop_size, int number_parameters, GaParamete
 		local_optimization(i);
 	}
 
-	startClustersOperators(gaParam);
 }
 
 ClustersFitness::~ClustersFitness(){}
