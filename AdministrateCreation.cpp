@@ -3,6 +3,7 @@
 #include <fstream>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 #include "FuzzyAdministration.h"
 
@@ -12,16 +13,16 @@ using namespace zerg;
 namespace zerg{
 void AdministrateCreation::initializeAdministration(
 	std::ofstream &geneticOut_, 
-	int pop_size, 
 	GaOptions &gaoptions,
 	GaParameters &gaParam)
 {
+	popSize = gaParam.pop_size;
 	pgeneticOut_ = &geneticOut_;
 	pgaoptions_ = &gaoptions;
-	oldFitness.resize(pop_size/4);
-	methodUsed.resize(pop_size/4);
-	newIndividuals.resize(pop_size/4);
-	for(int i=0; i<pop_size/4;i++)
+	oldFitness.resize(popSize/4);
+	methodUsed.resize(popSize/4);
+	newIndividuals.resize(popSize/4);
+	for(int i=0; i<popSize/4;i++)
 		newIndividuals[i]=-1;
 
 	fuzzy_.setFuzzyRules(gaParam.adminLargeEnergyVariation, gaParam.adminMaxCreationVariation);
@@ -64,10 +65,21 @@ void AdministrateCreation::adminCreationMethods(Population &pop, vector<double> 
 		methodMean[ii] = 0.0e0;
 	}
 
+	double meanEnergy = 0.0e0;
+	std::vector<int>::iterator it;
+	for (int i = 0; i < popSize; i++)
+	{
+		it = find(newIndividuals.begin(), newIndividuals.end(), i);
+		if( it == newIndividuals.end())
+			meanEnergy += pop.getfitness(i);
+	}
+	meanEnergy /= (popSize - size);
+
+
 	// calculating methodMean
 	for(int i=0; i<size;i++)
 	{
-		varFitness = (pop.getfitness(newIndividuals[i]) - oldFitness[i])/(oldFitness[i]);
+		varFitness = (pop.getfitness(newIndividuals[i]) - meanEnergy);
 		methodMean[methodUsed[i]] += varFitness;
 		if((currentMethod+1)!=methodUsed[i])
 		{

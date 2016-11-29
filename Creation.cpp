@@ -31,7 +31,7 @@ void Creation::initialize_creation(
 {
 	pgeneticOut_ = &geneticOut_;
 	pgaoptions_ = &gaoptions;
-	admin_.initializeAdministration(geneticOut_, pop_size, gaoptions, gaParam);
+	admin_.initializeAdministration(geneticOut_, gaoptions, gaParam);
 	insistOnSimilar = gaParam.insistOnSimilar;
 
 	number_methods = number_creation_methods;

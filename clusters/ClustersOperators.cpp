@@ -20,14 +20,14 @@ ClustersOperators::~ClustersOperators(){}
 
 void ClustersOperators::startClustersOperators(GaParameters & gaParam)
 {
-	mutationValue = gaParam.mutationValue;
-	crossoverWeight = gaParam.crossoverWeight;
-	crossoverProbability = gaParam.corssoverProbability;	
 	nAtoms = gaParam.numberOfParameters / 3;
 	gamma = gaParam.gammaInitializeAtoms;
 	rca = gaParam.rcaInitializeAtoms;
 	maxDistance = gaParam.maxDistance;
 	adminLargeEnergyVariation = gaParam.adminLargeEnergyVariation;
+	mutationValue = gaParam.mutationValue / nAtoms;
+	crossoverWeight = gaParam.crossoverWeight;
+	crossoverProbability = gaParam.corssoverProbability;
 }
 
 bool ClustersOperators::create_individual(int creation_type,int target, int parent1, int parent2)
@@ -83,8 +83,8 @@ bool ClustersOperators::operatorAdministration(int method, const std::vector<dou
 		break;
 
 	case 3:
-		if(operatorPerformance[0] > adminLargeEnergyVariation)
-			mutationValue = AuxMathGa::randomNumber(0.05e0,0.3e0);
+		if (operatorPerformance[0] > adminLargeEnergyVariation)
+			mutationValue = AuxMathGa::randomNumber(0.005,2.0) / nAtoms;
 		break;
 
 	case 4:

@@ -16,7 +16,6 @@ class AdministrateCreation
 public:
 	void initializeAdministration(
 		std::ofstream &geneticOut_, 
-		int pop_size, 
 		zerg::GaOptions &gaoptions,
 		zerg::GaParameters &gaParam
 		);
@@ -26,6 +25,8 @@ public:
 	void adminCreationMethods(zerg::Population &pop, std::vector<double> &creation_rate);
 
 private:
+	int popSize;
+
 	std::vector<double> oldFitness;
 	std::vector<int> newIndividuals;
 	std::vector<int> methodUsed;
