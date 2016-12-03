@@ -4,6 +4,9 @@
 #include <iostream>
 #include <cmath>
 
+#include "WriteQuantumInput.h"
+#include "ReadQuantumOutput.h"
+
 using namespace std;
 
 Fitness::Fitness(){}
@@ -51,3 +54,27 @@ double Fitness::lennardJones(vector<double> &x)
 	return vlj;
 }
 
+double Fitness::runGamess(
+	vector<double> &x, 
+	vector<string> &options, 
+	string gamessPath,
+	string nProc)
+{
+	WriteQuantumInput writeInp_(options);
+	int nAtoms = x.size() / 3;
+	vector<CoordXYZ> mol(x.size / 3);
+	for (int i = 0; i < nAtoms; i++)
+	{
+		mol[i].atomlabel = "N";
+		mol[i].x = x[i];
+		mol[i].y = x[i + nAtoms];
+		mol[i].z = x[i + 2 * nAtoms];
+	}
+	writeInp_.createInput(mol);
+
+//	system((gamessPath + "  " + options[1] + ".inp  00  " + nProc + " > " + options[1] + ".log").c_str());
+
+	ReadQuantumOutput readQ_("gamess");
+	readQ_.readOutput((options[1] + ".log").c_str());
+
+}

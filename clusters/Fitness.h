@@ -2,6 +2,7 @@
 #define FITNESS_H
 
 #include <vector>
+#include <string>
 
 class Fitness
 {
@@ -13,6 +14,12 @@ public:
 
 private:
 	double lennardJones(std::vector<double> &x);
+
+	double runGamess(
+		std::vector<double> &x, 
+		std::vector< std::string > &options, 
+		std::string gamessPath,
+		std::string nProc);
 
 };
 
