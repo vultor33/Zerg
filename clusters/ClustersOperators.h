@@ -38,7 +38,6 @@ private:
 	void translateToGeometricCenter(std::vector<double> & x);
 	std::vector<double> calculateRadius(std::vector<double> &x);
 
-
 	std::vector<double> calcAndSortAllDistances(std::vector<double> &x);
 
 	std::vector< std::vector<double> > allDistances;

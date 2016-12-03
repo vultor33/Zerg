@@ -12,8 +12,11 @@ struct GaOptions
 	bool similarityProblem;
 };
 
+// add type of fitness here
+// n_process always 1
 struct GaParameters
 {
+	int seed;
 	int n_process;
 	int pop_size;
 	int maxGeneration;

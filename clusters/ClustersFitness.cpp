@@ -8,10 +8,13 @@
 using namespace std;
 using namespace zerg;
 
-ClustersFitness::ClustersFitness(GaParameters & gaParam)
+ClustersFitness::ClustersFitness(
+	GaParameters & gaParam,
+	std::vector< std::string > &options_in,
+	std::string gamessPath_in,
+	std::string nProc_in)
 :ClustersOperators(gaParam.pop_size, gaParam.numberOfParameters)
 {
-
 	// ATENCAO  - ATIVAR O CHECK SIMILARITY AQUI
 	// starting first population - default rules
 	startClustersOperators(gaParam);
@@ -49,5 +52,9 @@ void ClustersFitness::optimize(int ind_i)
 	// energy[ind_i] -> fitness function 
 
 	Fitness fit_;
-	energy[ind_i] = fit_.fit(x_vec[ind_i], 0);
+	if (options.size() == 0)
+		energy[ind_i] = fit_.fit(x_vec[ind_i], 0);
+	else
+		energy[ind_i] = fit_.runGamess(x_vec[ind_i], options, gamessPath, nProc);
+
 }

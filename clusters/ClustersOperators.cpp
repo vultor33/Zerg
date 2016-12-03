@@ -118,6 +118,10 @@ bool ClustersOperators::operatorAdministration(int method, const std::vector<dou
 void ClustersOperators::appendTosimilarity(int ind_i)
 {
 	vector<double> auxDistances = calcAndSortAllDistances(x_vec[ind_i]);
+	if (auxDistances[auxDistances.size() - 1] > maxDistance)
+	{
+		energy[ind_i] += 1.0e99;
+	}
 	allDistances.push_back(auxDistances);
 }
 

@@ -20,6 +20,7 @@ double Fitness::fit(vector<double> &point, int type)
 	case 0:
 		return lennardJones(point);
 		break;
+		
 
 	default:
 		cout << "FITNESS FUNCTION NOT FOUND" << endl;
@@ -62,7 +63,7 @@ double Fitness::runGamess(
 {
 	WriteQuantumInput writeInp_(options);
 	int nAtoms = x.size() / 3;
-	vector<CoordXYZ> mol(x.size / 3);
+	vector<CoordXYZ> mol(nAtoms);
 	for (int i = 0; i < nAtoms; i++)
 	{
 		mol[i].atomlabel = "N";
@@ -77,4 +78,12 @@ double Fitness::runGamess(
 	ReadQuantumOutput readQ_("gamess");
 	readQ_.readOutput((options[1] + ".log").c_str());
 
+	mol = readQ_.getCoordinates();
+	for (int i = 0; i < nAtoms; i++)
+	{
+		x[i] = mol[i].x;
+		x[i + nAtoms] = mol[i].y;
+		x[i + 2 * nAtoms] = mol[i].z;
+	}
+	return readQ_.getEnergy();
 }
