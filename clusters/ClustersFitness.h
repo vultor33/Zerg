@@ -14,7 +14,8 @@ public:
 		zerg::GaParameters & gaParam, 
 		std::vector< std::string > &options_in,
 		std::string gamessPath_in,
-		std::string nPrco_in);
+		std::string gamessScr_in,
+		std::string nProc_in);
 
 	~ClustersFitness();
 
@@ -25,6 +26,7 @@ private:
 
 	std::vector< std::string > options;
 	std::string gamessPath;
+	std::string gamessScr;
 	std::string nProc;
 
 

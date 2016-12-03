@@ -15,7 +15,9 @@ using namespace zerg;
 // WARNING!!!
 // pop_size has to be multiple of four.
 namespace zerg{
-GeneticAlgorithm::GeneticAlgorithm(Population &pop_in,  GaParameters & gaParam)
+GeneticAlgorithm::GeneticAlgorithm(
+	Population &pop_in,  
+	GaParameters & gaParam)
 :pop(pop_in)
 {
 	generation = 1;

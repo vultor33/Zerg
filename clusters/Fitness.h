@@ -16,6 +16,7 @@ public:
 		std::vector<double> &x,
 		std::vector< std::string > &options,
 		std::string gamessPath,
+		std::string gamessScr,
 		std::string nProc);
 
 private:

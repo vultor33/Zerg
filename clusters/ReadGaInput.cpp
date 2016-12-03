@@ -10,7 +10,9 @@ using namespace std;
 
 ReadGaInput::~ReadGaInput() {}
 
-ReadGaInput::ReadGaInput()
+ReadGaInput::ReadGaInput() {}
+
+void ReadGaInput::readGaInput()
 {
 	setDefaults();
 	ifstream input_(inputName.c_str());
@@ -76,6 +78,8 @@ ReadGaInput::ReadGaInput()
 			convert >> interactionPotential;
 		else if (type == "gamess_executable_path")
 			convert >> gamessPath;
+		else if (type == "gamess_scr_path")
+			convert >> gamessScr;
 		else if (type == "bases_files_number")
 		{
 			int nBases;

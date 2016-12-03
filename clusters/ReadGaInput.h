@@ -10,7 +10,10 @@ class ReadGaInput
 {
 public:
 	ReadGaInput();
+
 	~ReadGaInput();
+
+	void readGaInput();
 
 	std::vector<std::string> getOptions();
 
@@ -22,12 +25,16 @@ public:
 
 	std::string getGamessNprocess() { return gamessNproc; }
 
+	std::string getGamessScr() { return gamessScr; }
+
+	std::string inputName = "GaInput.txt";
+
 private:
 	int seed;
-	std::string inputName = "GaInput.txt";
 	std::vector<std::string> options;
 	zerg::GaParameters gaParam;
 	std::string gamessPath;
+	std::string gamessScr;
 	std::string gamessNproc;
 	void setDefaults();
 

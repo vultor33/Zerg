@@ -59,6 +59,7 @@ double Fitness::runGamess(
 	vector<double> &x, 
 	vector<string> &options, 
 	string gamessPath,
+	string gamessScr,
 	string nProc)
 {
 	WriteQuantumInput writeInp_(options);
@@ -72,6 +73,10 @@ double Fitness::runGamess(
 		mol[i].z = x[i + 2 * nAtoms];
 	}
 	writeInp_.createInput(mol);
+
+	cout << "double Fitness::runGamess( -- teste here" << endl;
+
+//	remove((gamessScr + ".rwf").c_str());
 
 //	system((gamessPath + "  " + options[1] + ".inp  00  " + nProc + " > " + options[1] + ".log").c_str());
 

@@ -37,9 +37,17 @@ void printAtomsVectorDouble(vector<double> & atoms);
 
 void setGaParamDefaults(GaParameters & gaParam);
 
-int main()
+int main(int argc, char *argv[])
 {
 	ReadGaInput readGa_;
+	string gaInput;
+	if (argc != 1)
+	{
+		gaInput = argv[1];
+		readGa_.inputName = gaInput;		
+	}
+
+	readGa_.readGaInput();
 
 	AuxMathGa::set_seed(readGa_.getSeed());
 
@@ -47,6 +55,7 @@ int main()
 		readGa_.getGaParameters(),
 		readGa_.getOptions(),
 		readGa_.getGamessPath(),
+		readGa_.getGamessScr(),
 		readGa_.getGamessNprocess());
 
 	GeneticAlgorithm ga1(clFit_,readGa_.getGaParameters());
