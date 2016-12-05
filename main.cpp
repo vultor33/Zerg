@@ -61,6 +61,8 @@ int main(int argc, char *argv[])
 	GeneticAlgorithm ga1(clFit_,readGa_.getGaParameters());
 	ga1.ga_start();
 
+	clFit_.printAllIndividualas("finalPopulation.xyz");
+
 	return 0;
 }
 

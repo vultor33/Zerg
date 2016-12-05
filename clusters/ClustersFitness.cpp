@@ -1,9 +1,12 @@
 #include "ClustersFitness.h"
 
+#include "../AuxMathGa.h"
 #include "Fitness.h"
 #include "../StructOptions.h"
 
 #include <iostream>
+#include <fstream>
+#include <iomanip>
 
 using namespace std;
 using namespace zerg;
@@ -64,4 +67,34 @@ void ClustersFitness::optimize(int ind_i)
 			gamessScr,
 			nProc);
 
+}
+
+void ClustersFitness::printAllIndividualas(string fileName)
+{
+	// ordering
+	int pop_size = energy.size();
+	vector<double> fitness_energies(pop_size);
+	vector<int> fitness_rank(pop_size);
+	for (int i = 0; i<pop_size; i++)
+	{
+		fitness_energies[i] = energy[i];
+		fitness_rank[i] = i;
+	}
+	vector<int> vector_order = AuxMathGa::vector_ordering(fitness_energies);
+	AuxMathGa::vector_ordering_with_instructions(fitness_rank, vector_order);
+
+	ofstream printAll_(fileName.c_str());
+	int nAtoms = x_vec[0].size() / 3;
+	for (size_t ind = 0; ind < x_vec.size(); ind++)
+	{
+		int best = fitness_rank[ind];
+		printAll_ << nAtoms << endl << setprecision(16) << energy[best] << endl;
+		for (int i = 0; i < nAtoms; i++)
+			printAll_ << "N "
+				<< x_vec[best][i] << "  "
+				<< x_vec[best][i + nAtoms] << "  "
+				<< x_vec[best][i + 2 * nAtoms] << "  "
+				<< endl;
+	}
+	printAll_.close();
 }
