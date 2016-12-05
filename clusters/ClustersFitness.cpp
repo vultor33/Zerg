@@ -167,7 +167,7 @@ void ClustersFitness::readRestartFile()
 				>> coord[i + nAtoms]
 				>> coord[i + 2 * nAtoms];
 		}
-		if (coord.size() != 0)
+		if (coord.size() != nAtoms)
 		{
 			restartCoordinates.push_back(coord);
 			restartEnergies.push_back(energyI);

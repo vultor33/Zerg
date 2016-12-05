@@ -1,0 +1,34 @@
+S   7
+  1    921.3000000              0.0013670        
+  2    138.7000000              0.0104250        
+  3     31.9400000              0.0498590        
+  4      9.3530000              0.1607010        
+  5      3.1580000              0.3446040        
+  6      1.1570000              0.4251970        
+  7      0.4446000              0.1694680        
+S   2
+  1      0.4446000             -0.2223110        
+  2      0.0766600              1.1164770        
+S   1
+  1      0.0286400              1.0000000        
+P   3
+  1      1.4880000              0.0387700        
+  2      0.2667000              0.2362570        
+  3      0.0720100              0.8304480        
+P   1
+  1      0.0237000              1.0000000
+end
+
+
+
+LANL2DZ
+
+!  LANL2DZ ECP  EMSL  Basis Set Exchange Library   7/25/16 4:13 PM
+! Elements                             References
+! --------                             ----------
+! H  - Ne: T. H. Dunning Jr. and P. J. Hay, in Methods of Electronic Structure
+! Theory, Vol. 2, H. F. Schaefer III, ed., PLENUM PRESS (1977)
+! Na - Hg: P. J. Hay and W. R. Wadt, J. Chem. Phys. 82, 270 (1985).
+! P. J. Hay and W. R. Wadt, J. Chem. Phys. 82, 284 (1985).
+! P. J. Hay and W. R. Wadt, J. Chem. Phys. 82, 299 (1985).
+! 
