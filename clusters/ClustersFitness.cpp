@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <sstream>
 
 using namespace std;
 using namespace zerg;
@@ -19,6 +20,18 @@ ClustersFitness::ClustersFitness(
 	std::string nProc_in)
 :ClustersOperators(gaParam.pop_size, gaParam.numberOfParameters)
 {
+	iRestart = 0;
+	if (gaParam.restart)
+	{
+		readRestartFile();
+		restartMax = restartEnergies.size();
+	}
+	else
+	{
+		remove("restart.ga");
+		restartMax = 0;
+	}
+
 	startClustersOperators(gaParam);
 
 	gamessPath = gamessPath_in;
@@ -45,7 +58,17 @@ ClustersFitness::~ClustersFitness(){}
 
 void ClustersFitness::local_optimization(int ind_i)
 {
-	optimize(ind_i);
+	if (iRestart < restartMax)
+	{
+		energy[ind_i] = restartEnergies[iRestart];
+		x_vec[ind_i] = restartCoordinates[iRestart];
+		iRestart++;
+	}
+	else
+	{
+		optimize(ind_i);
+		saveIndividual(ind_i);
+	}
 	appendTosimilarity(ind_i);
 }
 
@@ -98,3 +121,58 @@ void ClustersFitness::printAllIndividualas(string fileName)
 	}
 	printAll_.close();
 }
+
+void ClustersFitness::saveIndividual(int ind_i)
+{
+	saveIndividual_.open("restart.ga", std::ofstream::out | std::ofstream::app);
+	int nAtoms = x_vec[0].size() / 3;
+	saveIndividual_ 
+		<< nAtoms << endl 
+		<< setprecision(16) << energy[ind_i] << endl;
+	for (int i = 0; i < nAtoms; i++)
+	{
+		saveIndividual_ << "N "
+		<< x_vec[ind_i][i] << "  "
+		<< x_vec[ind_i][i + nAtoms] << "  "
+		<< x_vec[ind_i][i + 2 * nAtoms] << "  "
+		<< endl;
+	}
+	saveIndividual_.close();
+}
+
+void ClustersFitness::readRestartFile()
+{
+	ifstream restart_("restart.ga");
+	string auxline;
+	string dummy;
+	int nAtoms;
+	while (getline(restart_, auxline))
+	{
+		stringstream line0;
+		line0 << auxline;
+		line0 >> nAtoms;
+		vector<double> coord(3 * nAtoms);
+		double energyI;
+		getline(restart_, auxline);
+		stringstream lineEnerg;
+		lineEnerg << auxline;
+		lineEnerg >> energyI;
+		for (int i = 0; i < nAtoms; i++)
+		{
+			getline(restart_, auxline);
+			stringstream line;
+			line << auxline;
+			line >> dummy 
+				>> coord[i]
+				>> coord[i + nAtoms]
+				>> coord[i + 2 * nAtoms];
+		}
+		if (coord.size() != 0)
+		{
+			restartCoordinates.push_back(coord);
+			restartEnergies.push_back(energyI);
+		}
+	}
+	restart_.close();
+}
+

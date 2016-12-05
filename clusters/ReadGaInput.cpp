@@ -37,6 +37,12 @@ void ReadGaInput::readGaInput()
 		convert << value;
 		if (type == "seed")
 			convert >> gaParam.seed;
+		else if (type == "restart")
+		{
+			string flagYes;
+			convert >> flagYes;
+			gaParam.restart = (flagYes == "yes");
+		}
 		else if (type == "number_of_cores")
 			convert >> gamessNproc;
 		else if (type == "project_name")
@@ -136,6 +142,7 @@ vector<string> ReadGaInput::getOptions()
 void ReadGaInput::setDefaults()
 {
 	gaParam.seed = 3;
+	gaParam.restart = false;
 	gaParam.n_process = 1;
 	gaParam.pop_size = 40;
 	gaParam.maxGeneration = 300;

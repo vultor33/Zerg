@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <fstream>
 
 #include "ClustersOperators.h"
 #include "../StructOptions.h"
@@ -31,7 +32,17 @@ private:
 	std::string gamessScr;
 	std::string nProc;
 
+	void saveIndividual(int ind_i);
 
+	std::ofstream saveIndividual_;
+
+	void readRestartFile();
+
+	std::vector< std::vector<double> > restartCoordinates;
+	std::vector<double> restartEnergies;
+
+	int iRestart;
+	int restartMax;
 };
 
 #endif

@@ -17,6 +17,7 @@ struct GaOptions
 struct GaParameters
 {
 	int seed;
+	bool restart;
 	int n_process;
 	int pop_size;
 	int maxGeneration;
