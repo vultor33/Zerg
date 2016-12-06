@@ -9,12 +9,12 @@
 #include "UserFitness.h"
 #include "AuxMathGa.h"
 
-#include "clusters\InitializeAtoms.h"
-#include "clusters\ClustersFitness.h"
-#include "clusters\ReadQuantumOutput.h"
-#include "clusters\WriteQuantumInput.h"
-#include "clusters\ReadGaInput.h"
-#include "clusters\Fitness.h"
+#include "clusters/InitializeAtoms.h"
+#include "clusters/ClustersFitness.h"
+#include "clusters/ReadQuantumOutput.h"
+#include "clusters/WriteQuantumInput.h"
+#include "clusters/ReadGaInput.h"
+#include "clusters/Fitness.h"
 
 using namespace std;
 using namespace zerg;

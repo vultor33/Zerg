@@ -35,7 +35,7 @@ private:
 	int insistOnSimilar;
 
 	// creation methods administration
-	std::vector<std::vector<int>> creation_methods; // quantity[0] and individuals to create
+	std::vector<std::vector<int> > creation_methods; // quantity[0] and individuals to create
 	std::vector<double> creation_rate;// how much will be created %
 
 	void set_creation_methods(Predator &pred);
