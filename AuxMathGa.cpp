@@ -65,7 +65,7 @@ vector<int> AuxMathGa::vector_ordering(vector<double> &vetor_entrada)
 }
 
 // Rotina que organiza os autovetores em ordem crescente de autovalores.
-void AuxMathGa::vector_ordering_with_instructions(vector<vector<double>> &vetor_entrada, const vector<int> &vetor_organiza)
+void AuxMathGa::vector_ordering_with_instructions(vector<vector<double> > &vetor_entrada, const vector<int> &vetor_organiza)
 {
 	int tamanho_vetor_organiza = vetor_organiza.size();
 	int tamanho_vetor_entrada = vetor_entrada.size();

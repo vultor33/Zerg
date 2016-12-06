@@ -8,7 +8,10 @@
 
 using namespace std;
 
-ReadGaInput::~ReadGaInput() {}
+ReadGaInput::~ReadGaInput() 
+{
+	inputName = "GaInput.txt";
+}
 
 ReadGaInput::ReadGaInput() {}
 

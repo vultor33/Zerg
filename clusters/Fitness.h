@@ -7,8 +7,8 @@
 class Fitness
 {
 public:
-	Fitness::Fitness();
-	Fitness::~Fitness();
+	Fitness();
+	~Fitness();
 
 	double fit(std::vector<double> &point, int type);
 

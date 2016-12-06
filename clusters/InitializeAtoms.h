@@ -7,9 +7,9 @@
 class InitializeAtoms
 {
 public:
-	InitializeAtoms::InitializeAtoms();
+	InitializeAtoms();
 
-	InitializeAtoms::~InitializeAtoms();
+	~InitializeAtoms();
 
 	std::vector<double> generateCluster(int Natoms, double gamma_in, double Rca_in);
 	
@@ -20,11 +20,11 @@ private:
 	double Rca;//Rcalfa na tese pag 62 - media do raio covalente.
 	int natm;
 
-	const double pi4sqr2 = 17.771531752633464988063523960243;
+	double pi4sqr2;
 
-	const double pi = 3.1415926535897932384626433832795e0;
+	double pi;
 
-	const double exp3 = 0.33333333333333333333333333333333e0;
+	double exp3;
 
 	std::vector<double> generateClusterRondina(int Natoms, double gamma_in, double Rca_in);
 

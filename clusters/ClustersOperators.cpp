@@ -1,5 +1,6 @@
 #include "ClustersOperators.h"
 
+#include <cmath>
 #include <iostream>
 #include <algorithm>
 

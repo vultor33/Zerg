@@ -27,7 +27,7 @@ public:
 
 	std::string getGamessScr() { return gamessScr; }
 
-	std::string inputName = "GaInput.txt";
+	std::string inputName;
 
 private:
 	int seed;

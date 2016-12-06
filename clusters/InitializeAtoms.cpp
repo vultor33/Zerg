@@ -1,6 +1,7 @@
 #include "InitializeAtoms.h"
 
 #include <iostream>
+#include <cmath>
 
 #include "../AuxMathGa.h"
 
@@ -8,7 +9,12 @@ using namespace std;
 
 using namespace zerg;
 
-InitializeAtoms::InitializeAtoms() {}
+InitializeAtoms::InitializeAtoms() 
+{
+        pi4sqr2 = 17.771531752633464988063523960243;
+        pi = 3.1415926535897932384626433832795e0;
+        exp3 = 0.33333333333333333333333333333333e0;
+}
 
 InitializeAtoms::~InitializeAtoms(){}
 

@@ -44,6 +44,8 @@ private:
 
 #endif
 
+
+
 // a primeira tentativa vai ser simples
 // guardo o individuo e o fitness medio dos pais.
 // injusto em alguns casos, quem disse que a natureza e justa?

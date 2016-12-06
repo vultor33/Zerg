@@ -53,14 +53,18 @@ int main(int argc, char *argv[])
 
 	AuxMathGa::set_seed(readGa_.getSeed());
 
+	zerg::GaParameters gaParam = readGa_.getGaParameters();
+
+	vector<string> options = readGa_.getOptions();
+
 	ClustersFitness clFit_(
-		readGa_.getGaParameters(),
-		readGa_.getOptions(),
+		gaParam,
+		options,
 		readGa_.getGamessPath(),
 		readGa_.getGamessScr(),
 		readGa_.getGamessNprocess());
 
-	GeneticAlgorithm ga1(clFit_,readGa_.getGaParameters());
+	GeneticAlgorithm ga1(clFit_, gaParam);
 	ga1.ga_start();
 
 	clFit_.printAllIndividualas("finalPopulation.xyz");

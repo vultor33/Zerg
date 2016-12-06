@@ -6,8 +6,8 @@
 class Derivative
 {
 public:
-	Derivative::Derivative();
-	Derivative::~Derivative();
+	Derivative();
+	~Derivative();
 
 	std::vector<double> Dfit(std::vector<double> &point, int type);
 
