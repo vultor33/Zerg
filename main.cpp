@@ -26,10 +26,11 @@ double FuzzyAdministration::getCreateRateVariation
 estudo das formas de gerar clusters iniciais: 
 - Tem o de Sao Carlos, esfera, cubo e árvore.
 
-- ele checa similaridade so 30 vezes, se nao passar vai igual mesmo.
-  observar isso.
+- na hora de gerar um cluster com um operador novo a distancia minima tambem
+  poderia ser ativada.
 
-- gerador de condicao inicial muito ruim (nao consegue 50 atomos)
+- usar a algebra de polya para contar isomeros lennard jones dos bimetalicos,
+  gerar todos e avaliar suas diferencas.
 
 
 */

@@ -10,6 +10,7 @@
 
 // This class just look at results and decide what
 // is the best course of action.
+// to stop it just do: maximum_creation_operators_boost = 0
 namespace zerg{
 class AdministrateCreation
 {

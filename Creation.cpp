@@ -88,8 +88,10 @@ void Creation::set_creation_methods(Predator &pred)
 		{
 			normalizeNumberToCreate = AuxMathGa::randomNumber(0, number_methods - 1);
 			if (creation_methods[normalizeNumberToCreate][0] > 0)
+			{
 				creation_methods[normalizeNumberToCreate][0]--;
-			numberToCreateOnCreationMethods--;
+				numberToCreateOnCreationMethods--;
+			}
 		}
 		else
 		{
