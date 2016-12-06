@@ -12,6 +12,8 @@ public:
 
 	double fit(std::vector<double> &point, int type);
 
+	double optimizeLennardJones(std::vector<double> &x, int fitType);
+
 	double runGamess(
 		std::vector<double> &x,
 		std::vector< std::string > &options,

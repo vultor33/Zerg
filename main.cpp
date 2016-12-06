@@ -14,6 +14,7 @@
 #include "clusters\ReadQuantumOutput.h"
 #include "clusters\WriteQuantumInput.h"
 #include "clusters\ReadGaInput.h"
+#include "clusters\Fitness.h"
 
 using namespace std;
 using namespace zerg;
@@ -33,7 +34,7 @@ estudo das formas de gerar clusters iniciais:
 
 */
 
-void printAtomsVectorDouble(vector<double> & atoms);
+void printAtomsVectorDouble(vector<double> & atoms, string testName = "teste.xyz");
 
 void setGaParamDefaults(GaParameters & gaParam);
 
@@ -66,10 +67,10 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-void printAtomsVectorDouble(vector<double> & atoms)
+void printAtomsVectorDouble(vector<double> & atoms, string testName)
 {
 	int natm = atoms.size() / 3;
-	ofstream teste_("teste.xyz");
+	ofstream teste_(testName.c_str());
 	teste_ << natm << endl << "t" << endl;
 	for (int i = 0; i < natm; i++)
 	{

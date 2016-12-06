@@ -1,8 +1,16 @@
+#define useDlib
+
 #include "Fitness.h"
 
 #include <vector>
 #include <iostream>
 #include <cmath>
+
+#ifdef useDlib
+#include <dlib/optimization.h>
+#include "FunctionDlib.h"
+#include "DerivativeDlib.h"
+#endif
 
 #include "WriteQuantumInput.h"
 #include "ReadQuantumOutput.h"
@@ -92,3 +100,47 @@ double Fitness::runGamess(
 	}
 	return readQ_.getEnergy();
 }
+
+
+
+double Fitness::optimizeLennardJones(std::vector<double> &x, int fitType)
+{
+#ifdef useDlib
+	using namespace dlib;
+
+	int size = x.size();
+	column_vector starting_point(size);
+	for (int i = 0; i < size; i++)
+		starting_point(i) = x[i];
+
+	double fMin = find_min(bfgs_search_strategy(),
+		objective_delta_stop_strategy(1e-6),
+		FunctionDlib(size, fitType),
+		DerivativeDlib(size, fitType),
+		starting_point,
+		-1.0e99);
+
+	for (int i = 0; i < size; i++)
+		x[i] = starting_point(i);
+
+	return fMin;
+#else
+	cout << "ERROR ON Fitness::optimizeLennardJones"
+		<< endl
+		<< "dlib library not activated"
+		<< endl;
+	exit(1);
+	return 0.0e0;
+#endif
+	
+}
+
+/* EXMPLO DE OPTIMIZE
+main:
+InitializeAtoms init_;
+vector<double> x = init_.generateCluster(20, 0.2, 2.5);
+Fitness fit_;
+printAtomsVectorDouble(x, "teste1.xyz");
+fit_.optimizeLennardJones(x, 0);
+printAtomsVectorDouble(x, "teste2.xyz");
+*/
