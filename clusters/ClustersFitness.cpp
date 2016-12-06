@@ -20,6 +20,7 @@ ClustersFitness::ClustersFitness(
 	std::string nProc_in)
 :ClustersOperators(gaParam.pop_size, gaParam.numberOfParameters)
 {
+	options = options_in;
 	iRestart = 0;
 	if (gaParam.restart)
 	{

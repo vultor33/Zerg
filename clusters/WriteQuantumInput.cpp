@@ -136,8 +136,8 @@ string WriteQuantumInput::createInput(
 	string inputName, indexString;
 	convertInd << indexAddedAtFinalOfInputToSaveItsName;
 	convertInd >> indexString;
-//	if (indexAddedAtFinalOfInputToSaveItsName == 0)
-//		indexString = "";
+	if (indexAddedAtFinalOfInputToSaveItsName == 0)
+		indexString = "";
 
 	inputName = projectName + indexString;
 	try {
