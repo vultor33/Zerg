@@ -82,17 +82,13 @@ double Fitness::runGamess(
 	}
 	writeInp_.createInput(mol);
 
-	cout << "double Fitness::runGamess( -- teste here" << endl;
-
 //	remove((gamessScr + ".rwf").c_str());
 
 	system((gamessPath + "  " + options[1] + ".inp  00  " + nProc + " > " + options[1] + ".log").c_str());
 
 	ReadQuantumOutput readQ_("gamess");
-	readQ_.readOutput((options[1] + ".log").c_str());
 
-	cout << "passou calma" << endl;
-	exit(1);
+	readQ_.readOutput((options[1] + ".log").c_str());
 
 	mol = readQ_.getCoordinates();
 	for (int i = 0; i < nAtoms; i++)
@@ -101,6 +97,7 @@ double Fitness::runGamess(
 		x[i + nAtoms] = mol[i].y;
 		x[i + 2 * nAtoms] = mol[i].z;
 	}
+
 	return readQ_.getEnergy();
 }
 
