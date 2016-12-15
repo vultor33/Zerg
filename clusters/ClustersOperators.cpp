@@ -509,8 +509,103 @@ vector<double> ClustersOperators::rondinaAngularOperator(vector<double> & x)
 }
 
 
+vector<double> ClustersOperators::rondinaAngularSurfaceOperator(vector<double> & x)
+{
+	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
+	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
+	nMaxAtoms = 7;
+
+	x = x_vec[0];
+
+	vector<double> newX = x;
+
+	remove("ASDO.xyz");
+	printAtomsVectorDouble(x, "ASDO.xyz");
+
+	vector<double> rCenterDistances = calcDistanceToCenter(x);
+	double rMax = *max_element(rCenterDistances.begin(), rCenterDistances.end());
+
+	vector<int> alreadyMoved;
+	bool moved;
+	do
+	{
+		int atom = AuxMathGa::randomNumber(0, nAtoms - 1);
+		moved = false;
+		for (int i = 0; i < alreadyMoved.size(); i++)
+		{
+			moved = alreadyMoved[i] == atom;
+			if (moved)
+				break;
+		}
+		if (moved)
+			continue;
+		alreadyMoved.push_back(atom);
+
+		vector<double> unitSphericalVector = AuxMathGa::unitarySphericalVector();
+
+		newX[atom] = rMax * unitSphericalVector[0];
+		newX[atom + nAtoms] = rMax * unitSphericalVector[1];
+		newX[atom + 2 * nAtoms] = rMax * unitSphericalVector[2];
+		nMaxAtoms--;
+	} while (nMaxAtoms != 0);
+
+	printAtomsVectorDouble(newX, "ASDO.xyz");
+
+	return newX;
+}
 
 
+vector<double> ClustersOperators::rondinaMoveToCenterOperator(vector<double> & x)
+{
+	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
+	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
+	nMaxAtoms = 7;
+
+	double contractionMin = 0.1e0;
+	double contractionMax = 0.8e0;
+
+	x = x_vec[0];
+
+	vector<double> newX = x;
+
+	remove("MTCO.xyz");
+	printAtomsVectorDouble(x, "MTCO.xyz");
+
+	vector<int> alreadyMoved;
+	bool moved;
+	do
+	{
+		int atom = AuxMathGa::randomNumber(0, nAtoms - 1);
+		moved = false;
+		for (int i = 0; i < alreadyMoved.size(); i++)
+		{
+			moved = alreadyMoved[i] == atom;
+			if (moved)
+				break;
+		}
+		if (moved)
+			continue;
+		alreadyMoved.push_back(atom);
+
+		double atomRadius = sqrt(
+			x[atom] * x[atom] +
+			x[atom + nAtoms] * x[atom + nAtoms] +
+			x[atom + 2 * nAtoms] * x[atom + 2 * nAtoms]);
+
+		double moveFactor = AuxMathGa::randomNumber(
+			contractionMin * atomRadius, 
+			contractionMax * atomRadius);
+
+		newX[atom] *= moveFactor;
+		newX[atom + nAtoms] = moveFactor;
+		newX[atom + 2 * nAtoms] = moveFactor;
+		nMaxAtoms--;
+	} while (nMaxAtoms != 0);
+
+	printAtomsVectorDouble(newX, "MTCO.xyz");
+
+	return newX;
+}
 
 
 

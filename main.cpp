@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 		readGa_.getGamessNprocess());
 
 	vector<double> x;
-	clFit_.rondinaAngularOperator(x);
+	clFit_.rondinaMoveToCenterOperator(x);
 
 	cout << "estou aqui" << endl;
 

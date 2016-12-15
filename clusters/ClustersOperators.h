@@ -30,9 +30,9 @@ public:
 	std::vector<double> rondinaCartesianDisplacementOperator(std::vector<double> & x);
 	std::vector<double> rondinaGeometricCenterDisplacementOperator(std::vector<double> & x);
 	std::vector<double> rondinaTwistOperator(std::vector<double> & x);
-
 	std::vector<double> rondinaAngularOperator(std::vector<double> & x);
-
+	std::vector<double> rondinaAngularSurfaceOperator(std::vector<double> & x);
+	std::vector<double> rondinaMoveToCenterOperator(std::vector<double> & x);
 
 protected:
 	void appendTosimilarity(int ind_i);
