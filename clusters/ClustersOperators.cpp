@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "../AuxMathGa.h"
+#include "../AuxMath.h"
 #include "../StructOptions.h"
 
 using namespace std;
@@ -369,15 +370,11 @@ vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(vec
 	double alfaMax = 0.45;
 	double w = 2;
 	vector<double> newX = x;
-
 	vector<double> rCenterDistances = calcDistanceToCenter(x);
-//	vector<double> rCenterDistancesSorted = rCenterDistances;
-//	sort(rCenterDistancesSorted.begin(), rCenterDistancesSorted.end());
-
 	double rMax = *max_element(rCenterDistances.begin(), rCenterDistances.end());
 
-	remove("GCDO.xyz");
-	printAtomsVectorDouble(x, "GCDO.xyz");
+//	remove("GCDO.xyz");
+//	printAtomsVectorDouble(x, "GCDO.xyz");
 
 	vector<int> alreadyMoved;
 	bool moved;
@@ -402,17 +399,67 @@ vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(vec
 			pow(rCenterDistances[atom] / rMax, w) + alfaMin) 
 			* calcDistancesOverIAndGetMin(newX,atom);
 
-		newX[atom] += multiplyFactor * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
-		newX[atom + nAtoms] += multiplyFactor * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
-		newX[atom + 2 * nAtoms] += multiplyFactor * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
+		newX[atom] += multiplyFactor * unitSphericalVector[0];
+		newX[atom + nAtoms] += multiplyFactor * unitSphericalVector[1];
+		newX[atom + 2 * nAtoms] += multiplyFactor * unitSphericalVector[2];
 		nMaxAtoms--;
 	} while (nMaxAtoms != 0);
 
-	printAtomsVectorDouble(newX, "GCDO.xyz");
+//	printAtomsVectorDouble(newX, "GCDO.xyz");
 
 	return newX;
 }
 
+
+
+vector<double> ClustersOperators::rondinaTwistOperator(vector<double> & x)
+{
+	AuxMath auxMath_;
+
+	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
+	double tetaMin = auxMath_._pi / 6;
+	double tetaMax = auxMath_._pi;
+	
+	double teta = AuxMathGa::randomNumber(tetaMin, tetaMax);
+
+	vector<double> newX = x;
+
+	vector<double> unitSphericalVector = AuxMathGa::unitarySphericalVector();
+
+//	remove("TWISTO.xyz");
+
+//	printAtomsVectorDouble(x, "TWISTO.xyz");
+
+	vector<bool> activateTwist(nAtoms);
+	for (int i = 0; i < nAtoms; i++)
+		activateTwist[i] = (
+			newX[i] * unitSphericalVector[0] +
+			newX[i + nAtoms] * unitSphericalVector[1] +
+			newX[i + 2 * nAtoms] * unitSphericalVector[2]
+			) > 0;
+
+	vector< vector< double > > mRot = auxMath_.rotationMatrix(unitSphericalVector[0], unitSphericalVector[1], unitSphericalVector[2],teta);
+
+	for (int i = 0; i < nAtoms; i++)
+	{
+		if (activateTwist[i])
+		{
+			vector<double> newCoordinates =
+				auxMath_.matrixXVector(
+					mRot, 
+					x[i],
+					x[i + nAtoms], 
+					x[i + 2 * nAtoms]);
+			newX[i] = newCoordinates[0];
+			newX[i + nAtoms] = newCoordinates[1];
+			newX[i + 2 * nAtoms] = newCoordinates[2];
+		}
+	}
+
+//	printAtomsVectorDouble(newX, "TWISTO.xyz");
+
+	return newX;
+}
 
 
 

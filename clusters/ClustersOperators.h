@@ -28,9 +28,9 @@ public:
 	
 	//ready
 	std::vector<double> rondinaCartesianDisplacementOperator(std::vector<double> & x);
-
 	std::vector<double> rondinaGeometricCenterDisplacementOperator(std::vector<double> & x);
 
+	std::vector<double> rondinaTwistOperator(std::vector<double> & x);
 
 
 protected:

@@ -64,8 +64,7 @@ int main(int argc, char *argv[])
 		readGa_.getGamessNprocess());
 
 	vector<double> x;
-	clFit_.rondinaCartesianDisplacementOperator(x);
-
+	clFit_.rondinaTwistOperator(x);
 
 	cout << "estou aqui" << endl;
 
