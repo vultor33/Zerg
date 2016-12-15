@@ -155,6 +155,31 @@ std::vector<double> ClustersOperators::calcAndSortDistancesOverI(std::vector<dou
 	return auxDistances;
 }
 
+std::vector<double> ClustersOperators::calcDistanceToCenter(vector<double> &x)
+{
+	vector<double> auxDistances(nAtoms);
+	for (int i = 0; i < nAtoms; i++)
+	{
+		auxDistances[i] = sqrt(
+			x[i] * x[i] + 
+			x[i + nAtoms] * x[i + nAtoms] + 
+			x[i + 2 * nAtoms] * x[i + 2 * nAtoms]);
+	}
+	return auxDistances;
+}
+
+double ClustersOperators::calcDistancesOverIAndGetMin(vector<double> &x, int i)
+{
+	vector<double> auxDistances;
+	for (int j = 0; j < nAtoms; j++)
+	{
+		if (i == j)
+			continue;
+		double dist = init_.calcDist(x, i, j);
+		auxDistances.push_back(dist);
+	}
+	return *min_element(auxDistances.begin(),auxDistances.end());
+}
 
 bool ClustersOperators::check_similarity(int target)
 {
@@ -324,10 +349,10 @@ vector<double> ClustersOperators::rondinaCartesianDisplacementOperator(vector<do
 		if (moved)
 			continue;
 		alreadyMoved.push_back(atom);
-		vector<double> dist = calcAndSortDistancesOverI(newX, atom);
-		newX[atom] += S * dist[0] * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
-		newX[atom + nAtoms] += S * dist[0] * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
-		newX[atom + 2 * nAtoms] += S * dist[0] * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
+		double multiplyFactor = S * calcDistancesOverIAndGetMin(newX, atom);
+		newX[atom] += multiplyFactor * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
+		newX[atom + nAtoms] += multiplyFactor *  AuxMathGa::randomNumber(-1.0e0, 1.0e0);
+		newX[atom + 2 * nAtoms] += multiplyFactor * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
 		nMaxAtoms--;
 	} while (nMaxAtoms != 0);
 
@@ -340,9 +365,20 @@ vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(vec
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
 	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
-	double S = 0.1e0;
+	double alfaMin = 0.2;
+	double alfaMax = 0.45;
+	double w = 2;
+	vector<double> newX = x;
 
-	vector<double> newMol = x;
+	vector<double> rCenterDistances = calcDistanceToCenter(x);
+//	vector<double> rCenterDistancesSorted = rCenterDistances;
+//	sort(rCenterDistancesSorted.begin(), rCenterDistancesSorted.end());
+
+	double rMax = *max_element(rCenterDistances.begin(), rCenterDistances.end());
+
+	remove("GCDO.xyz");
+	printAtomsVectorDouble(x, "GCDO.xyz");
+
 	vector<int> alreadyMoved;
 	bool moved;
 	do
@@ -358,14 +394,30 @@ vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(vec
 		if (moved)
 			continue;
 		alreadyMoved.push_back(atom);
-		vector<double> dist = calcAndSortDistancesOverI(newMol, atom);
-		newMol[atom] = S * dist[0] * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
-		newMol[atom + nAtoms] = S * dist[0] * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
-		newMol[atom + 2 * nAtoms] = S * dist[0] * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
+
+		vector<double> unitSphericalVector = AuxMathGa::unitarySphericalVector();
+
+		double multiplyFactor = (
+			(alfaMax - alfaMin) * 
+			pow(rCenterDistances[atom] / rMax, w) + alfaMin) 
+			* calcDistancesOverIAndGetMin(newX,atom);
+
+		newX[atom] += multiplyFactor * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
+		newX[atom + nAtoms] += multiplyFactor * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
+		newX[atom + 2 * nAtoms] += multiplyFactor * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
 		nMaxAtoms--;
 	} while (nMaxAtoms != 0);
-	return newMol;
+
+	printAtomsVectorDouble(newX, "GCDO.xyz");
+
+	return newX;
 }
+
+
+
+
+
+
 
 
 

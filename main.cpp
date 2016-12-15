@@ -67,7 +67,6 @@ int main(int argc, char *argv[])
 	clFit_.rondinaCartesianDisplacementOperator(x);
 
 
-
 	cout << "estou aqui" << endl;
 
 

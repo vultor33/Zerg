@@ -5,6 +5,7 @@
 #include <vector>
 #include <fstream>
 #include <iomanip>
+#include <cmath>
 
 using namespace std;
 using namespace zerg;
@@ -26,6 +27,18 @@ int AuxMathGa::randomNumber(int fMin, int fMax)
 	return fMin + (rand() % (int)(fMax - fMin + 1));
 }
 
+vector<double> AuxMathGa::unitarySphericalVector()
+{
+	vector<double> unit(3);
+	double pi = 3.1415926535897932384626433832795e0;
+	double fi, teta;
+	fi = 2.0e0 * pi * AuxMathGa::randomNumber(0.0e0, 1.0e0);
+	teta = acos(2.0e0 * AuxMathGa::randomNumber(0.0e0, 1.0e0) - 1.0e0);
+	unit[0] = sin(teta) * cos(fi);
+	unit[1] = sin(teta) * sin(fi);
+	unit[2] = cos(teta);
+	return unit;
+}
 
 vector<int> AuxMathGa::vector_ordering(vector<double> &vetor_entrada)
 {

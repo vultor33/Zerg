@@ -53,6 +53,10 @@ private:
 
 	std::vector<double> calcAndSortDistancesOverI(std::vector<double> &x, int i);
 
+	std::vector<double> calcDistanceToCenter(std::vector<double> &x);
+
+	double calcDistancesOverIAndGetMin(std::vector<double> &x, int i);
+	
 	std::vector< std::vector<double> > allDistances;
 
 	InitializeAtoms init_;

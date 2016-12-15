@@ -12,6 +12,7 @@ public:
 	static void set_seed(int seed);
 	static double randomNumber(double fMin, double fMax);
 	static int randomNumber(int fMin, int fMax);
+	static std::vector<double> unitarySphericalVector();
 
 	//ordering
 	static std::vector<int> vector_ordering(std::vector<double> &vetor_entrada); //organiza a entrada e solta um vetor de organizacao
