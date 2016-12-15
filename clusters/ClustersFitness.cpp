@@ -70,6 +70,7 @@ void ClustersFitness::local_optimization(int ind_i)
 		optimize(ind_i);
 		saveIndividual(ind_i);
 	}
+	translateToGeometricCenter(x_vec[ind_i]);
 	appendTosimilarity(ind_i);
 }
 

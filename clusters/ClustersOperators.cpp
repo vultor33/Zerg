@@ -141,6 +141,21 @@ std::vector<double> ClustersOperators::calcAndSortAllDistances(std::vector<doubl
 	return auxDistances;
 }
 
+std::vector<double> ClustersOperators::calcAndSortDistancesOverI(std::vector<double> &x, int i)
+{
+	vector<double> auxDistances;
+	for (int j = 0; j < nAtoms; j++)
+	{
+		if (i == j)
+			continue;
+		double dist = init_.calcDist(x, i, j);
+		auxDistances.push_back(dist);
+	}
+	sort(auxDistances.begin(), auxDistances.end());
+	return auxDistances;
+}
+
+
 bool ClustersOperators::check_similarity(int target)
 {
 	vector<double> auxDistance = calcAndSortAllDistances(x_vec[target]);
@@ -179,8 +194,6 @@ bool ClustersOperators::sphereCutAndSplice(int target, int parent1, int parent2)
 {
 	vector<double> x1 = x_vec[parent1];
 	vector<double> x2 = x_vec[parent2];
-	translateToGeometricCenter(x1);
-	translateToGeometricCenter(x2);
 	vector<double> r1 = calculateRadius(x1);
 	vector<double> r2 = calculateRadius(x2);
 
@@ -268,5 +281,95 @@ vector<double> ClustersOperators::calculateRadius(vector<double> &x)
 
 	return radius;
 }
+
+
+void ClustersOperators::printAtomsVectorDouble(vector<double> & atoms, string testName)
+{
+	int natm = atoms.size() / 3;
+	ofstream teste_;
+	teste_.open(testName.c_str(), std::ofstream::out | std::ofstream::app);
+	teste_ << natm << endl << "t" << endl;
+	for (int i = 0; i < natm; i++)
+	{
+		teste_ << "H "
+			<< atoms[i] << "  "
+			<< atoms[i + natm] << "  "
+			<< atoms[i + 2 * natm] << endl;
+	}
+	teste_.close();
+}
+
+vector<double> ClustersOperators::rondinaCartesianDisplacementOperator(vector<double> & x)
+{
+	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
+	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
+	double S = 0.1e0;
+	vector<double> newX = x;
+
+	//	remove("CDO.xyz");
+	//printAtomsVectorDouble(x, "CDO.xyz");
+
+	vector<int> alreadyMoved;
+	bool moved;
+	do
+	{
+		int atom = AuxMathGa::randomNumber(0, nAtoms - 1);
+		moved = false;
+		for (int i = 0; i < alreadyMoved.size(); i++)
+		{
+			moved = alreadyMoved[i] == atom;
+			if (moved)
+				break;
+		}
+		if (moved)
+			continue;
+		alreadyMoved.push_back(atom);
+		vector<double> dist = calcAndSortDistancesOverI(newX, atom);
+		newX[atom] += S * dist[0] * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
+		newX[atom + nAtoms] += S * dist[0] * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
+		newX[atom + 2 * nAtoms] += S * dist[0] * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
+		nMaxAtoms--;
+	} while (nMaxAtoms != 0);
+
+	//printAtomsVectorDouble(newX, "CDO.xyz");
+
+	return newX;
+}
+
+vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(vector<double> & x)
+{
+	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
+	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
+	double S = 0.1e0;
+
+	vector<double> newMol = x;
+	vector<int> alreadyMoved;
+	bool moved;
+	do
+	{
+		int atom = AuxMathGa::randomNumber(0, nAtoms - 1);
+		moved = false;
+		for (int i = 0; i < alreadyMoved.size(); i++)
+		{
+			moved = alreadyMoved[i] == atom;
+			if (moved)
+				break;
+		}
+		if (moved)
+			continue;
+		alreadyMoved.push_back(atom);
+		vector<double> dist = calcAndSortDistancesOverI(newMol, atom);
+		newMol[atom] = S * dist[0] * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
+		newMol[atom + nAtoms] = S * dist[0] * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
+		newMol[atom + 2 * nAtoms] = S * dist[0] * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
+		nMaxAtoms--;
+	} while (nMaxAtoms != 0);
+	return newMol;
+}
+
+
+
+
+
 
 

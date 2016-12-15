@@ -2,6 +2,7 @@
 #define CLUSTERSOPERATORS_H
 
 #include <vector>
+#include <string>
 
 #include "InitializeAtoms.h"
 #include "../BasicOperators.h"
@@ -23,8 +24,18 @@ public:
 	//keep
 	virtual void local_optimization(int ind_i) = 0;
 
+	// testing new operators
+	
+	//ready
+	std::vector<double> rondinaCartesianDisplacementOperator(std::vector<double> & x);
+
+	std::vector<double> rondinaGeometricCenterDisplacementOperator(std::vector<double> & x);
+
+
+
 protected:
 	void appendTosimilarity(int ind_i);
+	void translateToGeometricCenter(std::vector<double> & x);
 
 private:
 	//set on startUserOperators()
@@ -35,14 +46,19 @@ private:
 	double maxDistance;
 
 	bool sphereCutAndSplice(int target, int parent1, int parent2);
-	void translateToGeometricCenter(std::vector<double> & x);
+
 	std::vector<double> calculateRadius(std::vector<double> &x);
 
 	std::vector<double> calcAndSortAllDistances(std::vector<double> &x);
 
+	std::vector<double> calcAndSortDistancesOverI(std::vector<double> &x, int i);
+
 	std::vector< std::vector<double> > allDistances;
 
 	InitializeAtoms init_;
+
+	void printAtomsVectorDouble(std::vector<double> & atoms, std::string testName);
+
 
 };
 
