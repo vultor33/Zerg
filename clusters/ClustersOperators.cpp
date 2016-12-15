@@ -463,6 +463,50 @@ vector<double> ClustersOperators::rondinaTwistOperator(vector<double> & x)
 
 
 
+vector<double> ClustersOperators::rondinaAngularOperator(vector<double> & x)
+{
+	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
+	// IGUAL O GEOMETRIC CENTER DISPLACEMENT so que mais forte e com menos regras
+	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
+
+	vector<double> newX = x;
+
+	remove("ADO.xyz");
+	printAtomsVectorDouble(x, "ADO.xyz");
+
+	vector<int> alreadyMoved;
+	bool moved;
+	do
+	{
+		int atom = AuxMathGa::randomNumber(0, nAtoms - 1);
+		moved = false;
+		for (int i = 0; i < alreadyMoved.size(); i++)
+		{
+			moved = alreadyMoved[i] == atom;
+			if (moved)
+				break;
+		}
+		if (moved)
+			continue;
+		alreadyMoved.push_back(atom);
+
+		vector<double> unitSphericalVector = AuxMathGa::unitarySphericalVector();
+
+		double atomRadius = sqrt(
+			x[atom] * x[atom] +
+			x[atom + nAtoms] * x[atom + nAtoms] +
+			x[atom + 2 * nAtoms] * x[atom + 2 * nAtoms]);
+
+		newX[atom] = atomRadius * unitSphericalVector[0];
+		newX[atom + nAtoms] = atomRadius * unitSphericalVector[1];
+		newX[atom + 2 * nAtoms] = atomRadius * unitSphericalVector[2];
+		nMaxAtoms--;
+	} while (nMaxAtoms != 0);
+
+	printAtomsVectorDouble(newX, "ADO.xyz");
+
+	return newX;
+}
 
 
 
