@@ -23,8 +23,6 @@ public:
 
 	//keep
 	virtual void local_optimization(int ind_i) = 0;
-
-	// testing new operators
 	
 	//ready
 	std::vector<double> rondinaCartesianDisplacementOperator(std::vector<double> & x);
@@ -33,7 +31,7 @@ public:
 	std::vector<double> rondinaAngularOperator(std::vector<double> & x);
 	std::vector<double> rondinaAngularSurfaceOperator(std::vector<double> & x);
 	std::vector<double> rondinaMoveToCenterOperator(std::vector<double> & x);
-
+	std::vector<double> fredAngularSurfaceOperator(std::vector<double> & x);
 	std::vector<double> deavenHoCutSplice(std::vector<double> & x1_parent, std::vector<double> & x2_parent);
 
 protected:
