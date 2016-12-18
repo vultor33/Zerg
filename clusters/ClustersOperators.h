@@ -34,6 +34,8 @@ public:
 	std::vector<double> rondinaAngularSurfaceOperator(std::vector<double> & x);
 	std::vector<double> rondinaMoveToCenterOperator(std::vector<double> & x);
 
+	std::vector<double> deavenHoCutSplice(std::vector<double> & x1_parent, std::vector<double> & x2_parent);
+
 protected:
 	void appendTosimilarity(int ind_i);
 	void translateToGeometricCenter(std::vector<double> & x);
@@ -64,6 +66,7 @@ private:
 
 	void printAtomsVectorDouble(std::vector<double> & atoms, std::string testName);
 
+	void translate(std::vector<double> & x, std::vector<double> & translateVector);
 
 };
 

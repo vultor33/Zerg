@@ -296,6 +296,18 @@ void ClustersOperators::translateToGeometricCenter(vector<double> & x)
 	}
 }
 
+void ClustersOperators::translate(vector<double> & x, vector<double> & translateVector)
+{
+	int sizeCluster = x.size() / 3;
+	for (int i = 0; i < sizeCluster; i++)
+	{
+		x[i] += translateVector[0];
+		x[i + sizeCluster] += translateVector[1];
+		x[i + 2 * sizeCluster] += translateVector[2];
+	}
+}
+
+
 vector<double> ClustersOperators::calculateRadius(vector<double> &x)
 {
 	int natm = x.size() / 3;
@@ -462,7 +474,6 @@ vector<double> ClustersOperators::rondinaTwistOperator(vector<double> & x)
 }
 
 
-
 vector<double> ClustersOperators::rondinaAngularOperator(vector<double> & x)
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
@@ -559,17 +570,14 @@ vector<double> ClustersOperators::rondinaMoveToCenterOperator(vector<double> & x
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
 	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
-	nMaxAtoms = 7;
 
 	double contractionMin = 0.1e0;
 	double contractionMax = 0.8e0;
 
-	x = x_vec[0];
-
 	vector<double> newX = x;
 
-	remove("MTCO.xyz");
-	printAtomsVectorDouble(x, "MTCO.xyz");
+//	remove("MTCO.xyz");
+//	printAtomsVectorDouble(x, "MTCO.xyz");
 
 	vector<int> alreadyMoved;
 	bool moved;
@@ -602,12 +610,96 @@ vector<double> ClustersOperators::rondinaMoveToCenterOperator(vector<double> & x
 		nMaxAtoms--;
 	} while (nMaxAtoms != 0);
 
-	printAtomsVectorDouble(newX, "MTCO.xyz");
+//	printAtomsVectorDouble(newX, "MTCO.xyz");
 
 	return newX;
 }
 
+vector<double> ClustersOperators::deavenHoCutSplice(
+	vector<double> & x1_parent, 
+	vector<double> & x2_parent)
+{
+	vector<double> x1 = x1_parent;
+	vector<double> x2 = x2_parent;
 
+	x1 = x_vec[4];
+	x2 = x_vec[5];
+
+	remove("DHO.xyz");
+	printAtomsVectorDouble(x1, "DHO.xyz");
+	printAtomsVectorDouble(x2, "DHO.xyz");
+
+	vector<int> cutAtoms1, cutAtoms2;
+	vector<double> unit = AuxMathGa::unitarySphericalVector();
+	vector<double> rDistance1, rDistance2;
+	double d1, d2;
+	for (int i = 0; i < nAtoms; i++)
+	{
+		double prodInt1 =
+			unit[0] * x1[i] +
+			unit[1] * x1[i + nAtoms] +
+			unit[2] * x1[i + 2 * nAtoms];
+		double prodInt2 = 
+			unit[0] * x2[i] + 
+			unit[1] * x2[i + nAtoms] + 
+			unit[2] * x2[i + 2 * nAtoms];
+		if (prodInt1 > 0)
+		{
+			cutAtoms1.push_back(i);
+			d1 = sqrt(
+				x1[i] * x1[i] +
+				x1[i + nAtoms] * x1[i + nAtoms] +
+				x1[i + 2 * nAtoms] * x1[i + 2 * nAtoms]);			
+			rDistance1.push_back(d1);
+		}
+		if (prodInt2 > 0)
+		{
+			cutAtoms2.push_back(i);
+			d2 = sqrt(
+				x2[i] * x2[i] +
+				x2[i + nAtoms] * x2[i + nAtoms] +
+				x2[i + 2 * nAtoms] * x2[i + 2 * nAtoms]);
+			rDistance2.push_back(d2);
+		}
+	}
+	vector<int> orderInstruct1 = AuxMathGa::vector_ordering(rDistance1);
+	vector<int> orderInstruct2 = AuxMathGa::vector_ordering(rDistance2);
+	AuxMathGa::vector_ordering_with_instructions(cutAtoms1, orderInstruct1);
+	AuxMathGa::vector_ordering_with_instructions(cutAtoms2, orderInstruct2);
+	double translateValue;
+	vector<double> translateVector(3);
+	while (cutAtoms1.size() != cutAtoms2.size())
+	{
+		if (cutAtoms1.size() > cutAtoms2.size())
+		{
+			translateValue = (rDistance1[0] + rDistance1[1]) / 2.0e0;
+			translateVector[0] = -unit[0] * translateValue;
+			translateVector[1] = -unit[1] * translateValue;
+			translateVector[2] = -unit[2] * translateValue;
+			translate(x1, translateVector);
+			rDistance1.erase(rDistance1.begin(), rDistance1.begin() + 1);
+			cutAtoms1.erase(cutAtoms1.begin(), cutAtoms1.begin() + 1);
+		}
+		else if (cutAtoms1.size() < cutAtoms2.size())
+		{
+			translateValue = (rDistance2[0] + rDistance2[1]) / 2.0e0;
+			translateVector[0] = -unit[0] * translateValue;
+			translateVector[1] = -unit[1] * translateValue;
+			translateVector[2] = -unit[2] * translateValue;
+			translate(x2, translateVector);
+			rDistance2.erase(rDistance2.begin(), rDistance2.begin() + 1);
+			cutAtoms2.erase(cutAtoms2.begin(), cutAtoms2.begin() + 1);
+		}
+	}
+	for (size_t i = 0; i < cutAtoms1.size(); i++)
+	{
+		x1[cutAtoms1[i]] = x2[cutAtoms2[i]];
+		x1[cutAtoms1[i] + nAtoms] = x2[cutAtoms2[i] + nAtoms];
+		x1[cutAtoms1[i] + 2 * nAtoms] = x2[cutAtoms2[i] + 2 * nAtoms];
+	}
+	printAtomsVectorDouble(x1, "DHO.xyz");
+	return x1;
+}
 
 
 
