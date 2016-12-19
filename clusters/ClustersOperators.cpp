@@ -341,7 +341,6 @@ vector<double> ClustersOperators::rondinaCartesianDisplacementOperator(vector<do
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
 	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
-	double S = 0.1e0;
 	vector<double> newX = x;
 
 //	remove("CDO.xyz");
@@ -362,7 +361,7 @@ vector<double> ClustersOperators::rondinaCartesianDisplacementOperator(vector<do
 		if (moved)
 			continue;
 		alreadyMoved.push_back(atom);
-		double multiplyFactor = S * calcDistancesOverIAndGetMin(newX, atom);
+		double multiplyFactor = scdo * calcDistancesOverIAndGetMin(newX, atom);
 		newX[atom] += multiplyFactor * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
 		newX[atom + nAtoms] += multiplyFactor *  AuxMathGa::randomNumber(-1.0e0, 1.0e0);
 		newX[atom + 2 * nAtoms] += multiplyFactor * AuxMathGa::randomNumber(-1.0e0, 1.0e0);
@@ -378,9 +377,6 @@ vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(vec
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
 	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
-	double alfaMin = 0.2;
-	double alfaMax = 0.45;
-	double w = 2;
 	vector<double> newX = x;
 	vector<double> rCenterDistances = calcDistanceToCenter(x);
 	double rMax = *max_element(rCenterDistances.begin(), rCenterDistances.end());
@@ -407,8 +403,8 @@ vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(vec
 		vector<double> unitSphericalVector = AuxMathGa::unitarySphericalVector();
 
 		double multiplyFactor = (
-			(alfaMax - alfaMin) * 
-			pow(rCenterDistances[atom] / rMax, w) + alfaMin) 
+			(alfaMaxGcdo - alfaMinGcdo) * 
+			pow(rCenterDistances[atom] / rMax, wGcdo) + alfaMinGcdo) 
 			* calcDistancesOverIAndGetMin(newX,atom);
 
 		newX[atom] += multiplyFactor * unitSphericalVector[0];
@@ -427,12 +423,8 @@ vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(vec
 vector<double> ClustersOperators::rondinaTwistOperator(vector<double> & x)
 {
 	AuxMath auxMath_;
-
-	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
-	double tetaMin = auxMath_._pi / 6;
-	double tetaMax = auxMath_._pi;
 	
-	double teta = AuxMathGa::randomNumber(tetaMin, tetaMax);
+	double teta = AuxMathGa::randomNumber(tetaMinTwisto, tetaMaxTwisto);
 
 	vector<double> newX = x;
 
@@ -610,11 +602,8 @@ vector<double> ClustersOperators::fredAngularSurfaceOperator(vector<double> & x)
 
 vector<double> ClustersOperators::rondinaMoveToCenterOperator(vector<double> & x)
 {
-	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
+//  parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
 	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
-
-	double contractionMin = 0.1e0;
-	double contractionMax = 0.8e0;
 
 	vector<double> newX = x;
 
@@ -643,8 +632,8 @@ vector<double> ClustersOperators::rondinaMoveToCenterOperator(vector<double> & x
 			x[atom + 2 * nAtoms] * x[atom + 2 * nAtoms]);
 
 		double moveFactor = AuxMathGa::randomNumber(
-			contractionMin * atomRadius, 
-			contractionMax * atomRadius);
+			contractionMinMtco * atomRadius, 
+			contractionMaxMtco * atomRadius);
 
 		newX[atom] *= moveFactor;
 		newX[atom + nAtoms] = moveFactor;

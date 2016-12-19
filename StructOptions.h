@@ -36,6 +36,16 @@ struct GaParameters
 	int insistOnSimilar;
 	std::vector<double> initialCreationRate;
 
+	//operators parameters
+	double scdo;
+	double alfaMinGcdo;
+	double alfaMaxGcdo;
+	double wGcdo;
+	double tetaMinTwisto;
+	double tetaMaxTwisto;
+	double contractionMinMtco;
+	double contractionMaxMtco;
+
 
 };
 

@@ -34,6 +34,15 @@ public:
 	std::vector<double> fredAngularSurfaceOperator(std::vector<double> & x);
 	std::vector<double> deavenHoCutSplice(std::vector<double> & x1_parent, std::vector<double> & x2_parent);
 
+	double scdo;
+	double alfaMinGcdo;
+	double alfaMaxGcdo;
+	double wGcdo;
+	double tetaMinTwisto;
+	double tetaMaxTwisto;
+	double contractionMinMtco;
+	double contractionMaxMtco;
+
 protected:
 	void appendTosimilarity(int ind_i);
 	void translateToGeometricCenter(std::vector<double> & x);

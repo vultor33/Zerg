@@ -6,6 +6,8 @@
 #include <vector>
 #include <sstream>
 
+#include "../AuxMath.h"
+
 using namespace std;
 
 ReadGaInput::~ReadGaInput() 
@@ -37,7 +39,6 @@ void ReadGaInput::readGaInput()
 			cout << "wrong input format" << endl;
 			exit(1);
 		}
-
 		stringstream convert;
 		convert << value;
 		if (type == "seed")
@@ -49,7 +50,6 @@ void ReadGaInput::readGaInput()
 			gaParam.restart = (flagYes == "yes");
 		}
 		else if (type == "number_of_cores")
-
 			convert >> gamessNproc;
 		else if (type == "project_name")
 			convert >> projectName;
@@ -73,6 +73,22 @@ void ReadGaInput::readGaInput()
 			convert >> gaParam.crossoverWeight;
 		else if (type == "crossover_probability")
 			convert >> gaParam.corssoverProbability;
+		else if (type == "sCartesianDisplacementOperator")
+			convert >> gaParam.scdo;
+		else if (type == "alfaMinGeometricDisplacement")
+			convert >> gaParam.alfaMinGcdo;
+		else if (type == "alfaMaxGeometricDisplacement")
+			convert >> gaParam.alfaMaxGcdo;
+		else if (type == "wGeometricDisplacement")
+			convert >> gaParam.wGcdo;
+		else if (type == "tetaMinTwistOperator")
+			convert >> gaParam.tetaMinTwisto;
+		else if (type == "tetaMaxTwistOperator")
+			convert >> gaParam.tetaMaxTwisto;
+		else if (type == "contractionMinMoveToCenter")
+			convert >> gaParam.contractionMinMtco;
+		else if (type == "contractionMaxMoveToCenter")
+			convert >> gaParam.contractionMaxMtco;
 		else if (type == "number_of_atoms")
 		{
 			convert >> gaParam.numberOfParameters;
@@ -149,14 +165,15 @@ void ReadGaInput::setDefaults()
 {
 	gaParam.seed = 3;
 	gaParam.restart = false;
-	gaParam.n_process = 1;
 	gaParam.pop_size = 40;
 	gaParam.maxGeneration = 300;
 	gaParam.highlanderInitialFitness = 1.0e99;
 	gaParam.highlanderMaxIteration = 50;
 	gaParam.adminLargeEnergyVariation = 2.0e0;
 	gaParam.adminMaxCreationVariation = 0.9e0;
+	gaParam.insistOnSimilar = 30;
 	gaParam.predatorMethod = 0;
+	gaParam.n_process = 1;
 	gaParam.mutationValue = 0.1e0;
 	gaParam.crossoverWeight = 0.7e0;
 	gaParam.corssoverProbability = 0.7e0;
@@ -164,5 +181,16 @@ void ReadGaInput::setDefaults()
 	gaParam.gammaInitializeAtoms = 0.2;
 	gaParam.rcaInitializeAtoms = 1.0;
 	gaParam.maxDistance = 1.0e99;
-	gaParam.insistOnSimilar = 30;
+
+	AuxMath auxMath_;
+
+	// OPERATORS PARAMETERS
+	gaParam.scdo = 0.1e0;
+	gaParam.alfaMinGcdo = 0.2e0;
+	gaParam.alfaMaxGcdo = 0.45e0;
+	gaParam.wGcdo = 2;
+	gaParam.tetaMinTwisto = auxMath_._pi / 6;
+	gaParam.tetaMaxTwisto = auxMath_._pi;
+	gaParam.contractionMinMtco = 0.1e0;
+	gaParam.contractionMaxMtco = 0.8e0;
 }

@@ -38,6 +38,14 @@ ClustersFitness::ClustersFitness(
 	gamessPath = gamessPath_in;
 	gamessScr = gamessScr_in;
 	nProc = nProc_in;
+	scdo = gaParam.scdo;
+	alfaMinGcdo = gaParam.alfaMinGcdo;
+	alfaMaxGcdo = gaParam.alfaMaxGcdo;
+	wGcdo = gaParam.wGcdo;
+	tetaMinTwisto = gaParam.tetaMinTwisto;
+	tetaMaxTwisto = gaParam.tetaMaxTwisto;
+	contractionMinMtco = gaParam.contractionMinMtco;
+	contractionMaxMtco = gaParam.contractionMaxMtco;
 
 	bool aux;
 	aux = create_individual(0, 0, 0, 0); //method 0 always random

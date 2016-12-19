@@ -33,7 +33,6 @@ estudo das formas de gerar clusters iniciais:
   sempre coordenadas.
 
 - colocar const no cluster operators por seguranca
-
 */
 
 void printAtomsVectorDouble(vector<double> & atoms, string testName = "teste.xyz");
