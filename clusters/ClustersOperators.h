@@ -24,16 +24,12 @@ public:
 	//keep
 	virtual void local_optimization(int ind_i) = 0;
 	
-	//ready
-	std::vector<double> rondinaCartesianDisplacementOperator(std::vector<double> & x);
-	std::vector<double> rondinaGeometricCenterDisplacementOperator(std::vector<double> & x);
-	std::vector<double> rondinaTwistOperator(std::vector<double> & x);
-	std::vector<double> rondinaAngularOperator(std::vector<double> & x);
-	std::vector<double> rondinaAngularSurfaceOperator(std::vector<double> & x);
-	std::vector<double> rondinaMoveToCenterOperator(std::vector<double> & x);
-	std::vector<double> fredAngularSurfaceOperator(std::vector<double> & x);
-	std::vector<double> deavenHoCutSplice(std::vector<double> & x1_parent, std::vector<double> & x2_parent);
+protected:
+	void appendTosimilarity(int ind_i);
+	void translateToGeometricCenter(std::vector<double> & x);
 
+
+	// OPERATORS PARAMETERS
 	double scdo;
 	double alfaMinGcdo;
 	double alfaMaxGcdo;
@@ -43,9 +39,6 @@ public:
 	double contractionMinMtco;
 	double contractionMaxMtco;
 
-protected:
-	void appendTosimilarity(int ind_i);
-	void translateToGeometricCenter(std::vector<double> & x);
 
 private:
 	//set on startUserOperators()
@@ -74,6 +67,17 @@ private:
 	void printAtomsVectorDouble(std::vector<double> & atoms, std::string testName);
 
 	void translate(std::vector<double> & x, std::vector<double> & translateVector);
+
+	//CLUSTERS OPERATORS
+	std::vector<double> rondinaCartesianDisplacementOperator(const std::vector<double> & x);
+	std::vector<double> rondinaGeometricCenterDisplacementOperator(const std::vector<double> & x);
+	std::vector<double> rondinaTwistOperator(const std::vector<double> & x);
+	std::vector<double> rondinaAngularOperator(const std::vector<double> & x);
+	std::vector<double> rondinaAngularSurfaceOperator(const std::vector<double> & x);
+	std::vector<double> rondinaMoveToCenterOperator(const std::vector<double> & x);
+	std::vector<double> fredAngularSurfaceOperator(const std::vector<double> & x);
+	std::vector<double> deavenHoCutSplice(const std::vector<double> & x1_parent, const std::vector<double> & x2_parent);
+
 
 };
 

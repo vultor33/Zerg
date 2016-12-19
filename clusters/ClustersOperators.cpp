@@ -14,7 +14,7 @@ using namespace zerg;
 ClustersOperators::ClustersOperators(int pop_size, int number_parameters)
 :BasicOperators(pop_size, number_parameters)
 {
-	number_of_creation_methods = 6;
+	number_of_creation_methods = 14;
 	tol_similarity = 3.0e-2;
 }
 
@@ -61,6 +61,38 @@ bool ClustersOperators::create_individual(int creation_type,int target, int pare
 			make_mutation(target, parent1);
 		break;
 
+	case 6:
+		x_vec[target] = rondinaCartesianDisplacementOperator(x_vec[parent1]);
+		break;
+
+	case 7:
+		x_vec[target] = rondinaGeometricCenterDisplacementOperator(x_vec[parent1]);
+		break;
+
+	case 8:
+		x_vec[target] = rondinaTwistOperator(x_vec[parent1]);
+		break;
+
+	case 9:
+		x_vec[target] = rondinaAngularOperator(x_vec[parent1]);
+		break;
+
+	case 10:
+		x_vec[target] = rondinaAngularSurfaceOperator(x_vec[parent1]);
+		break;
+
+	case 11:
+		x_vec[target] = rondinaMoveToCenterOperator(x_vec[parent1]);
+		break;
+
+	case 12:
+		x_vec[target] = fredAngularSurfaceOperator(x_vec[parent1]);
+		break;
+
+	case 13:
+		x_vec[target] = deavenHoCutSplice(x_vec[parent1], x_vec[parent2]);
+		break;
+
 	default:
 		cout << "Creation type not avaible" << endl;
 		return false;
@@ -77,24 +109,34 @@ bool ClustersOperators::operatorAdministration(int method, const std::vector<dou
 		break;
 
 	case 1:
-		if(operatorPerformance[0] > adminLargeEnergyVariation)
-			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
 		break;
+		//if(operatorPerformance[0] > adminLargeEnergyVariation)
+		//crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
 
 	case 2:
 		break;
 
 	case 3:
-		if (operatorPerformance[0] > adminLargeEnergyVariation)
-			mutationValue = AuxMathGa::randomNumber(0.005,2.0) / nAtoms;
 		break;
+//		if (operatorPerformance[0] > adminLargeEnergyVariation)
+//      mutationValue = AuxMathGa::randomNumber(0.005,2.0) / nAtoms;
 
 	case 4:
-		if(operatorPerformance[0] > adminLargeEnergyVariation)
-			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
 		break;
+//		if(operatorPerformance[0] > adminLargeEnergyVariation)
+//			crossoverWeight = AuxMathGa::randomNumber(0.5e0,0.9e0);
 
 	case 5:
+		break;
+
+	case 6:
+	case 7:
+	case 8:
+	case 9:
+	case 10:
+	case 11:
+	case 12:
+	case 13:
 		break;
 
 	default:
@@ -337,7 +379,7 @@ void ClustersOperators::printAtomsVectorDouble(vector<double> & atoms, string te
 	teste_.close();
 }
 
-vector<double> ClustersOperators::rondinaCartesianDisplacementOperator(vector<double> & x)
+vector<double> ClustersOperators::rondinaCartesianDisplacementOperator(const vector<double> & x)
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
 	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
@@ -373,12 +415,12 @@ vector<double> ClustersOperators::rondinaCartesianDisplacementOperator(vector<do
 	return newX;
 }
 
-vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(vector<double> & x)
+vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(const vector<double> & x)
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
 	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
 	vector<double> newX = x;
-	vector<double> rCenterDistances = calcDistanceToCenter(x);
+	vector<double> rCenterDistances = calcDistanceToCenter(newX);
 	double rMax = *max_element(rCenterDistances.begin(), rCenterDistances.end());
 
 //	remove("GCDO.xyz");
@@ -420,7 +462,7 @@ vector<double> ClustersOperators::rondinaGeometricCenterDisplacementOperator(vec
 
 
 
-vector<double> ClustersOperators::rondinaTwistOperator(vector<double> & x)
+vector<double> ClustersOperators::rondinaTwistOperator(const vector<double> & x)
 {
 	AuxMath auxMath_;
 	
@@ -465,7 +507,7 @@ vector<double> ClustersOperators::rondinaTwistOperator(vector<double> & x)
 }
 
 
-vector<double> ClustersOperators::rondinaAngularOperator(vector<double> & x)
+vector<double> ClustersOperators::rondinaAngularOperator(const vector<double> & x)
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
 	// IGUAL O GEOMETRIC CENTER DISPLACEMENT so que mais forte e com menos regras
@@ -511,7 +553,7 @@ vector<double> ClustersOperators::rondinaAngularOperator(vector<double> & x)
 }
 
 
-vector<double> ClustersOperators::rondinaAngularSurfaceOperator(vector<double> & x)
+vector<double> ClustersOperators::rondinaAngularSurfaceOperator(const vector<double> & x)
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
 	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
@@ -521,7 +563,7 @@ vector<double> ClustersOperators::rondinaAngularSurfaceOperator(vector<double> &
 //	remove("ASDO.xyz");
 //	printAtomsVectorDouble(x, "ASDO.xyz");
 
-	vector<double> rCenterDistances = calcDistanceToCenter(x);
+	vector<double> rCenterDistances = calcDistanceToCenter(newX);
 	double rMax = *max_element(rCenterDistances.begin(), rCenterDistances.end());
 
 	vector<int> alreadyMoved;
@@ -553,7 +595,7 @@ vector<double> ClustersOperators::rondinaAngularSurfaceOperator(vector<double> &
 	return newX;
 }
 
-vector<double> ClustersOperators::fredAngularSurfaceOperator(vector<double> & x)
+vector<double> ClustersOperators::fredAngularSurfaceOperator(const vector<double> & x)
 {
 	//parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
 	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
@@ -565,7 +607,7 @@ vector<double> ClustersOperators::fredAngularSurfaceOperator(vector<double> & x)
 //	remove("FASDO.xyz");
 //	printAtomsVectorDouble(x, "FASDO.xyz");
 
-	vector<double> rCenterDistances = calcDistanceToCenter(x);
+	vector<double> rCenterDistances = calcDistanceToCenter(newX);
 	double rMax = *max_element(rCenterDistances.begin(), rCenterDistances.end());
 
 	vector<int> alreadyMoved;
@@ -600,7 +642,7 @@ vector<double> ClustersOperators::fredAngularSurfaceOperator(vector<double> & x)
 	return newX;
 }
 
-vector<double> ClustersOperators::rondinaMoveToCenterOperator(vector<double> & x)
+vector<double> ClustersOperators::rondinaMoveToCenterOperator(const vector<double> & x)
 {
 //  parameters - esse nMaxAtoms poderia ser fixo e tal, ou mudar ao longo da simulacao
 	int nMaxAtoms = AuxMathGa::randomNumber(1, nAtoms);
@@ -647,8 +689,8 @@ vector<double> ClustersOperators::rondinaMoveToCenterOperator(vector<double> & x
 }
 
 vector<double> ClustersOperators::deavenHoCutSplice(
-	vector<double> & x1_parent, 
-	vector<double> & x2_parent)
+	const vector<double> & x1_parent, 
+	const vector<double> & x2_parent)
 {
 	vector<double> x1 = x1_parent;
 	vector<double> x2 = x2_parent;

@@ -100,7 +100,6 @@ void ClustersFitness::optimize(int ind_i)
 			gamessPath, 
 			gamessScr,
 			nProc);
-
 }
 
 void ClustersFitness::printAllIndividualas(string fileName)

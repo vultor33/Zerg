@@ -62,11 +62,6 @@ int main(int argc, char *argv[])
 		readGa_.getGamessScr(),
 		readGa_.getGamessNprocess());
 
-	vector<double> x,x2;
-	clFit_.deavenHoCutSplice(x, x2);
-
-	cout << "estou aqui" << endl;
-
 	GeneticAlgorithm ga1(clFit_, gaParam);
 	ga1.ga_start();
 
