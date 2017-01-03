@@ -49,7 +49,6 @@ void ReadGaInput::readGaInput()
 			gaParam.restart = (flagYes == "yes");
 		}
 		else if (type == "number_of_cores")
-
 			convert >> gamessNproc;
 		else if (type == "project_name")
 			convert >> projectName;
