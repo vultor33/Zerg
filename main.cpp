@@ -29,7 +29,7 @@ estudo das formas de gerar clusters iniciais:
 
 - remover os outros branchs
 
-- os operadores deveriam seguir o seguinte paradigma receber
+- os operadores deveriam seguir o seguinte paradigma: receber
   sempre coordenadas.
 
 - colocar const no cluster operators por seguranca

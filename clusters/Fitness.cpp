@@ -1,4 +1,4 @@
-//#define useDlib
+#define useDlib
 
 #include "Fitness.h"
 
@@ -125,12 +125,7 @@ double Fitness::optimizeLennardJones(std::vector<double> &x, int fitType)
 
 	return fMin;
 #else
-	cout << "ERROR ON Fitness::optimizeLennardJones"
-		<< endl
-		<< "dlib library not activated"
-		<< endl;
-	exit(1);
-	return 0.0e0;
+	return lennardJones(x);
 #endif
 	
 }
