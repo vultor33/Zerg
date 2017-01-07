@@ -8,6 +8,7 @@
 
 #include "../AuxMath.h"
 
+using namespace zerg;
 using namespace std;
 
 ReadGaInput::~ReadGaInput() 
@@ -155,6 +156,13 @@ void ReadGaInput::readGaInput()
 		options.push_back("NoECP");
 	}
 }
+
+void ReadGaInput::setInputInformations(GaParameters gaParam_in)
+{
+	gaParam = gaParam_in;
+}
+
+
 
 vector<string> ReadGaInput::getOptions()
 {

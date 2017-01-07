@@ -15,6 +15,8 @@ public:
 
 	void readGaInput();
 
+	void setInputInformations(zerg::GaParameters gaParam_in);
+
 	std::vector<std::string> getOptions();
 
 	int getSeed() {return seed;}
@@ -37,7 +39,6 @@ private:
 	std::string gamessScr;
 	std::string gamessNproc;
 	void setDefaults();
-
 };
 
 

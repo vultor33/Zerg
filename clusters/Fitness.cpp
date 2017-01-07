@@ -6,14 +6,14 @@
 #include <iostream>
 #include <cmath>
 
+#include "WriteQuantumInput.h"
+#include "ReadQuantumOutput.h"
+
 #ifdef useDlib
 #include <dlib/optimization.h>
 #include "FunctionDlib.h"
 #include "DerivativeDlib.h"
 #endif
-
-#include "WriteQuantumInput.h"
-#include "ReadQuantumOutput.h"
 
 using namespace std;
 
@@ -29,7 +29,6 @@ double Fitness::fit(vector<double> &point, int type)
 		return lennardJones(point);
 		break;
 		
-
 	default:
 		cout << "FITNESS FUNCTION NOT FOUND" << endl;
 		exit(3);

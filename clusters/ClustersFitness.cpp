@@ -91,8 +91,8 @@ void ClustersFitness::optimize(int ind_i)
 
 	Fitness fit_;
 	if (options.size() == 0)
-		//energy[ind_i] = fit_.optimizeLennardJones(x_vec[ind_i], 0);
-		energy[ind_i] = fit_.fit(x_vec[ind_i], 0);
+		energy[ind_i] = fit_.optimizeLennardJones(x_vec[ind_i], 0);
+		//energy[ind_i] = fit_.fit(x_vec[ind_i], 0);
 	else
 		energy[ind_i] = fit_.runGamess(
 			x_vec[ind_i], 
@@ -102,7 +102,7 @@ void ClustersFitness::optimize(int ind_i)
 			nProc);
 }
 
-void ClustersFitness::printAllIndividualas(string fileName)
+void ClustersFitness::printAllIndividuals(string fileName)
 {
 	// ordering
 	int pop_size = energy.size();

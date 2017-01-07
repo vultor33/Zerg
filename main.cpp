@@ -16,6 +16,7 @@
 #include "clusters/ReadGaInput.h"
 #include "clusters/Fitness.h"
 #include "clusters/ClustersOperators.h"
+#include "clusters/Experiment.h"
 
 using namespace std;
 using namespace zerg;
@@ -39,6 +40,16 @@ void printAtomsVectorDouble(vector<double> & atoms, string testName = "teste.xyz
 
 int main(int argc, char *argv[])
 {
+	Experiment exp_;
+
+	exp_.makeExperiment("GaInput.txt");
+
+	return 0;
+}
+
+/*
+	//EXEMPLO DE EXECUCAO DO GA
+
 	ReadGaInput readGa_;
 	string gaInput;
 	if (argc != 1)
@@ -65,10 +76,11 @@ int main(int argc, char *argv[])
 	GeneticAlgorithm ga1(clFit_, gaParam);
 	ga1.ga_start();
 
-	clFit_.printAllIndividualas("finalPopulation.xyz");
+	clFit_.printAllIndividuals("finalPopulation.xyz");
 
 	return 0;
 }
+*/
 
 void printAtomsVectorDouble(vector<double> & atoms, string testName)
 {

@@ -22,7 +22,7 @@ public:
 
 	void local_optimization(int ind_i);
 
-	void printAllIndividualas(std::string fileName);
+	void printAllIndividuals(std::string fileName);
 
 private:
 	void optimize(int ind_i);
