@@ -22,6 +22,13 @@ using namespace std;
 using namespace zerg;
 
 /*
+
+IMPORTANTE - Criar um objeto chamado - benchmarck
+           - ele vai montar uma execucao sem input
+		   - com os parametros lennard-jones, rodar
+		   - e dentro do codigo mesmo tem que ter
+		   - o resultado que tem que dar.
+
 estudo das formas de gerar clusters iniciais:
 - Tem o de Sao Carlos, esfera, cubo e árvore.
 

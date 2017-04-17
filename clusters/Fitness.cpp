@@ -125,8 +125,7 @@ double Fitness::optimizeLennardJones(std::vector<double> &x, int fitType)
 	return fMin;
 #else
 	return lennardJones(x);
-#endif
-	
+#endif	
 }
 
 /* EXMPLO DE OPTIMIZE

@@ -1,5 +1,7 @@
 #include "Experiment.h"
 
+#include <iostream>
+
 #include "ReadGaInput.h"
 #include "ClustersFitness.h"
 #include "../AuxMathGa.h"
@@ -27,10 +29,15 @@ void Experiment::makeExperiment(string inputName)
 		
 	readGa_.readGaInput();
 
-	run(readGa_, 5, 7);
+	run(readGa_, 26, 7);
 	
 	// avaliar a melhora da populacao como um todo.
 	// nao apenas o melhor individuo
+	// o 26 e um caso classico, acho que eu poderia me concentrar nele.
+	// a qualidade dos operadores ao longo do tempo
+	// se as variacoes sao melhores no inicio da simulacao, no final, ou nao depende e tal.
+	// adicionar um Nlm e um Ncalls
+
 
 }
 
@@ -54,6 +61,8 @@ void Experiment::run(ReadGaInput & readGa_, int nAtoms, int seed)
 	GeneticAlgorithm ga1(clFit_, gaParam);
 
 	ga1.ga_start();
+
+	cout << "nlm " << clFit_.getNumberOfLocalMinimizations() << endl;
 
 }
 

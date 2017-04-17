@@ -24,6 +24,8 @@ public:
 
 	void printAllIndividuals(std::string fileName);
 
+	int getNumberOfLocalMinimizations() { return numberOfLocalMinimizations; }
+
 private:
 	void optimize(int ind_i);
 
@@ -32,15 +34,13 @@ private:
 	std::string gamessScr;
 	std::string nProc;
 
+	int numberOfLocalMinimizations;
+
 	void saveIndividual(int ind_i);
-
 	std::ofstream saveIndividual_;
-
 	void readRestartFile();
-
 	std::vector< std::vector<double> > restartCoordinates;
 	std::vector<double> restartEnergies;
-
 	int iRestart;
 	int restartMax;
 };

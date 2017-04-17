@@ -22,6 +22,7 @@ ClustersFitness::ClustersFitness(
 {
 	options = options_in;
 	iRestart = 0;
+	numberOfLocalMinimizations = 0;
 	if (gaParam.restart)
 	{
 		readRestartFile();
@@ -100,6 +101,8 @@ void ClustersFitness::optimize(int ind_i)
 			gamessPath, 
 			gamessScr,
 			nProc);
+	
+	numberOfLocalMinimizations++;
 }
 
 void ClustersFitness::printAllIndividuals(string fileName)
