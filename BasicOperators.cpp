@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 #include <cmath>
+#include <stdlib.h>
 
 #include "AuxMathGa.h"
 #include "Population.h"

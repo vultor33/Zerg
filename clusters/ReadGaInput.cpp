@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <stdlib.h>
 
 #include "../AuxMath.h"
 

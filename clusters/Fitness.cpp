@@ -1,10 +1,11 @@
-#define useDlib
+//#define useDlib
 
 #include "Fitness.h"
 
 #include <vector>
 #include <iostream>
 #include <cmath>
+#include <stdlib.h>
 
 #include "WriteQuantumInput.h"
 #include "ReadQuantumOutput.h"

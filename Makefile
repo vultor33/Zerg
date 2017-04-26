@@ -19,7 +19,7 @@ LFLAGS =
 LIBS = 
 
 # define the C++ source files
-SRCS = AdministrateCreation.cpp AuxMathGa.cpp BasicOperators.cpp Creation.cpp FuzzyAdministration.cpp GAPrinting.cpp GeneticAlgorithm.cpp Globals.cpp Hooklaw.cpp main.cpp ParallelOptimization.cpp Predator.cpp UserFitness.cpp UserOperators.cpp clusters/ClustersFitness.cpp clusters/ClustersOperators.cpp clusters/Fitness.cpp clusters/InitializeAtoms.cpp clusters/ReadGaInput.cpp clusters/ReadQuantumOutput.cpp clusters/WriteQuantumInput.cpp
+SRCS = AdministrateCreation.cpp AuxMath.cpp AuxMathGa.cpp BasicOperators.cpp Creation.cpp FuzzyAdministration.cpp GAPrinting.cpp GeneticAlgorithm.cpp Globals.cpp Hooklaw.cpp main.cpp ParallelOptimization.cpp Predator.cpp UserFitness.cpp UserOperators.cpp clusters/ClustersFitness.cpp clusters/ClustersOperators.cpp clusters/Fitness.cpp clusters/InitializeAtoms.cpp clusters/ReadGaInput.cpp clusters/ReadQuantumOutput.cpp clusters/WriteQuantumInput.cpp clusters/Experiment.cpp
 
 
 # define the C++ object files 
@@ -33,7 +33,7 @@ SRCS = AdministrateCreation.cpp AuxMathGa.cpp BasicOperators.cpp Creation.cpp Fu
 OBJS = $(SRCS:.cpp=.o)
 
 # define the executable file 
-MAIN = lumpacview.exe
+MAIN = zerg.exe
 
 #
 # The following part of the makefile is generic; it can be used to 

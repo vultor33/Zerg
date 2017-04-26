@@ -4,6 +4,7 @@
 #include <vector>
 #include <math.h>
 #include <fstream>
+#include <stdlib.h>
 
 #include "Population.h"
 #include "Predator.h"

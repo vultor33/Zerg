@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <stdlib.h>
 
 #include "Population.h"
 #include "AuxMathGa.h"

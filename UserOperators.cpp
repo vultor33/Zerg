@@ -1,6 +1,7 @@
 #include "UserOperators.h"
 
 #include <iostream>
+#include <stdlib.h>
 
 #include "AuxMathGa.h"
 
