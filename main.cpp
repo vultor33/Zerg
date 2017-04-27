@@ -47,16 +47,16 @@ void printAtomsVectorDouble(vector<double> & atoms, string testName = "teste.xyz
 
 int main(int argc, char *argv[])
 {
+/*
 	Experiment exp_;
 
 	exp_.makeExperiment("GaInput.txt");
 
 	return 0;
 }
+*/
 
-/*
 	//EXEMPLO DE EXECUCAO DO GA
-
 	ReadGaInput readGa_;
 	string gaInput;
 	if (argc != 1)
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
-*/
+
 
 void printAtomsVectorDouble(vector<double> & atoms, string testName)
 {
