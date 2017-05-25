@@ -46,6 +46,10 @@ struct GaParameters
 	double contractionMinMtco;
 	double contractionMaxMtco;
 
+	//util
+	std::string experimentMethod;
+
+
 
 };
 

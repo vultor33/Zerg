@@ -13,9 +13,9 @@ public:
 
 	~Experiment();
 
-	void makeExperiment(std::string inputName);
+	void makeExperiment(int seed, std::string experimentMethod);
 
-	void run(ReadGaInput & readGa_, int nAtoms, int seed);
+	void setExperiment(std::string experimentMethod, zerg::GaParameters & gaParam);
 
 };
 

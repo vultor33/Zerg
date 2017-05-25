@@ -43,6 +43,10 @@ private:
 	std::vector<double> restartEnergies;
 	int iRestart;
 	int restartMax;
+
+	// experiment util
+	int seed;
+	std::string experimentMethod;
 };
 
 #endif

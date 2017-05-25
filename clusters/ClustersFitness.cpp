@@ -48,6 +48,9 @@ ClustersFitness::ClustersFitness(
 	contractionMinMtco = gaParam.contractionMinMtco;
 	contractionMaxMtco = gaParam.contractionMaxMtco;
 
+	seed = gaParam.seed;
+	experimentMethod = gaParam.experimentMethod;
+
 	bool aux;
 	aux = create_individual(0, 0, 0, 0); //method 0 always random
 	local_optimization(0);
@@ -93,16 +96,33 @@ void ClustersFitness::optimize(int ind_i)
 	Fitness fit_;
 	if (options.size() == 0)
 		energy[ind_i] = fit_.optimizeLennardJones(x_vec[ind_i], 0);
-		//energy[ind_i] = fit_.fit(x_vec[ind_i], 0);
+	//energy[ind_i] = fit_.fit(x_vec[ind_i], 0);
 	else
 		energy[ind_i] = fit_.runGamess(
-			x_vec[ind_i], 
-			options, 
-			gamessPath, 
+			x_vec[ind_i],
+			options,
+			gamessPath,
 			gamessScr,
 			nProc);
-	
+
 	numberOfLocalMinimizations++;
+	cout << numberOfLocalMinimizations << endl;
+	if (energy[ind_i] <= -108.315)
+	{
+		ofstream fileCsv_;
+		fileCsv_.open(("cluster-result-" + experimentMethod + ".csv").c_str(), std::ofstream::out | std::ofstream::app);
+		fileCsv_ << experimentMethod << " ; " << seed << " ; " << numberOfLocalMinimizations << endl;
+		fileCsv_.close();
+		exit(0);
+	}
+	else if (numberOfLocalMinimizations > 3000)
+	{
+		ofstream fileCsv_;
+		fileCsv_.open(("cluster-result-" + experimentMethod + ".csv").c_str(), std::ofstream::out | std::ofstream::app);
+		fileCsv_ << experimentMethod << " ; " << seed << " ; " << numberOfLocalMinimizations << endl;
+		fileCsv_.close();
+		exit(0);
+	}
 }
 
 void ClustersFitness::printAllIndividuals(string fileName)
