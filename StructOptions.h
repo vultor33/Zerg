@@ -1,6 +1,7 @@
 #ifndef STRUCTOPTIONS_H
 #define STRUCTOPTIONS_H
 
+#include <string>
 #include <vector>
 
 namespace zerg{
