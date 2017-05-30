@@ -106,6 +106,78 @@ void Experiment::setExperiment(std::string experimentMethod, zerg::GaParameters 
 			gaParam.initialCreationRate[i] = 1.0e0 / (int)gaParam.initialCreationRate.size();
 		gaParam.adminMaxCreationVariation = 0.9e0;
 	}
+	else if (experimentMethod == "ImigrationOnly")
+	{
+		gaParam.initialCreationRate[0] = 1.0e0;
+		gaParam.initialCreationRate[3] = 0.0e0;
+		gaParam.initialCreationRate[4] = 0.0e0;
+	}
+	else if (experimentMethod == "CrossoverMeanOnly")
+	{
+		gaParam.initialCreationRate[1] = 1.0e0;
+		gaParam.initialCreationRate[3] = 0.0e0;
+		gaParam.initialCreationRate[4] = 0.0e0;
+	}
+	else if (experimentMethod == "CrossoverTwoPointsOnly")
+	{
+		gaParam.initialCreationRate[2] = 1.0e0;
+		gaParam.initialCreationRate[3] = 0.0e0;
+		gaParam.initialCreationRate[4] = 0.0e0;
+	}
+	else if (experimentMethod == "SphereCrossoverOnly")
+	{
+		gaParam.initialCreationRate[5] = 1.0e0;
+		gaParam.initialCreationRate[3] = 0.0e0;
+		gaParam.initialCreationRate[4] = 0.0e0;
+	}
+	else if (experimentMethod == "CartesianDisplacementOnly")
+	{
+		gaParam.initialCreationRate[6] = 1.0e0;
+		gaParam.initialCreationRate[3] = 0.0e0;
+		gaParam.initialCreationRate[4] = 0.0e0;
+	}
+	else if (experimentMethod == "GeometricCenterDisplacementOnly")
+	{
+		gaParam.initialCreationRate[7] = 1.0e0;
+		gaParam.initialCreationRate[3] = 0.0e0;
+		gaParam.initialCreationRate[4] = 0.0e0;
+	}
+	else if (experimentMethod == "TwistOperatorOnly")
+	{
+		gaParam.initialCreationRate[8] = 1.0e0;
+		gaParam.initialCreationRate[3] = 0.0e0;
+		gaParam.initialCreationRate[4] = 0.0e0;
+	}
+	else if (experimentMethod == "AngularOperatorOnly")
+	{
+		gaParam.initialCreationRate[9] = 1.0e0;
+		gaParam.initialCreationRate[3] = 0.0e0;
+		gaParam.initialCreationRate[4] = 0.0e0;
+	}
+	else if (experimentMethod == "AngularSurfaceOnly")
+	{
+		gaParam.initialCreationRate[10] = 1.0e0;
+		gaParam.initialCreationRate[3] = 0.0e0;
+		gaParam.initialCreationRate[4] = 0.0e0;
+	}
+	else if (experimentMethod == "MoveToCenterOnly")
+	{
+		gaParam.initialCreationRate[11] = 1.0e0;
+		gaParam.initialCreationRate[3] = 0.0e0;
+		gaParam.initialCreationRate[4] = 0.0e0;
+	}
+	else if (experimentMethod == "ModifiedAngularSurfaceOnly")
+	{
+		gaParam.initialCreationRate[12] = 1.0e0;
+		gaParam.initialCreationRate[3] = 0.0e0;
+		gaParam.initialCreationRate[4] = 0.0e0;
+	}
+	else if (experimentMethod == "DeavenHoCutSpliceOnly")
+	{
+		gaParam.initialCreationRate[13] = 1.0e0;
+		gaParam.initialCreationRate[3] = 0.0e0;
+		gaParam.initialCreationRate[4] = 0.0e0;
+	}
 	else
 	{
 		cout << "method not found" << endl;
