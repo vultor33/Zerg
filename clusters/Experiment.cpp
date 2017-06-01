@@ -178,6 +178,24 @@ void Experiment::setExperiment(std::string experimentMethod, zerg::GaParameters 
 		gaParam.initialCreationRate[3] = 0.0e0;
 		gaParam.initialCreationRate[4] = 0.0e0;
 	}
+	else if (experimentMethod == "Mutation")
+	{
+		gaParam.initialCreationRate[3] = 0.7e0;
+	}
+	else if (experimentMethod == "CrossoverProbability")
+	{
+		gaParam.initialCreationRate[4] = 0.8e0;
+	}
+	else if (experimentMethod == "MutationOnly")
+	{
+		gaParam.initialCreationRate[3] = 1.0e0;
+		gaParam.initialCreationRate[4] = 0.0e0;
+	}
+	else if (experimentMethod == "CrossoverProbabilityOnly")
+	{
+		gaParam.initialCreationRate[3] = 0.0e0;
+		gaParam.initialCreationRate[4] = 1.0e0;
+	}
 	else
 	{
 		cout << "method not found" << endl;
