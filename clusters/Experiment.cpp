@@ -21,7 +21,7 @@ Experiment::Experiment() {}
 
 Experiment::~Experiment() {}
 
-void Experiment::makeExperiment(int seed, string experimentMethod)
+void Experiment::makeExperiment(int seed, string experimentMethod, vector<double> & additionalParams)
 {
 	int nAtoms = 26;
 
@@ -30,6 +30,19 @@ void Experiment::makeExperiment(int seed, string experimentMethod)
 	readGa_.setExperimentDefaults(seed);
 
 	zerg::GaParameters gaParam = readGa_.getGaParameters();
+
+	if (experimentMethod == "TwistOperator")
+	{
+		AuxMath auxMath_;
+		gaParam.tetaMinTwisto = auxMath_._pi * additionalParams[0];
+		gaParam.tetaMaxTwisto = auxMath_._pi * additionalParams[1];
+	}
+	else if (experimentMethod == "GeometricCenterDisplacement")
+	{
+		gaParam.alfaMinGcdo = additionalParams[0];
+		gaParam.alfaMaxGcdo = additionalParams[1];
+		gaParam.wGcdo = additionalParams[2];
+	}
 
 	gaParam.experimentMethod = experimentMethod;
 
@@ -62,8 +75,53 @@ void Experiment::makeExperiment(int seed, string experimentMethod)
 	// adicionar um Nlm e um Ncalls
 }
 
+
 void Experiment::setExperiment(std::string experimentMethod, zerg::GaParameters & gaParam)
 {
+	for (size_t i = 1; i < gaParam.initialCreationRate.size(); i++)
+		gaParam.initialCreationRate[i] = 0.0e0;
+
+	if (experimentMethod == "SmallAutoAdjust")
+	{
+		for (size_t i = 1; i < gaParam.initialCreationRate.size(); i++)
+			gaParam.initialCreationRate[i] = 1.0e0 / ((int)gaParam.initialCreationRate.size()-1);
+		gaParam.adminMaxCreationVariation = 0.2e0;
+	}
+	else if (experimentMethod == "MediumAutoAdjust")
+	{
+		for (size_t i = 1; i < gaParam.initialCreationRate.size(); i++)
+			gaParam.initialCreationRate[i] = 1.0e0 / ((int)gaParam.initialCreationRate.size()-1);
+		gaParam.adminMaxCreationVariation = 0.5e0;
+	}
+	else if (experimentMethod == "LargeAutoAdjust")
+	{
+		for (size_t i = 1; i < gaParam.initialCreationRate.size(); i++)
+			gaParam.initialCreationRate[i] = 1.0e0 / ((int)gaParam.initialCreationRate.size()-1);
+		gaParam.adminMaxCreationVariation = 0.9e0;
+	}
+	else if (experimentMethod == "TwistOperator")
+		gaParam.initialCreationRate[3] = 1.0e0;
+	else if (experimentMethod == "DeavenHoCutSplice")
+		gaParam.initialCreationRate[4] = 1.0e0;
+	else if (experimentMethod == "SphereCrossover")
+		gaParam.initialCreationRate[1] = 1.0e0;
+	else if (experimentMethod == "GeometricCenterDisplacement")
+		gaParam.initialCreationRate[2] = 1.0e0;
+	else if (experimentMethod == "AngularOperator")
+		gaParam.initialCreationRate[5] = 1.0e0;
+	else if (experimentMethod == "AngularSurface")
+		gaParam.initialCreationRate[6] = 1.0e0;
+	else
+	{
+		cout << "A NUMERACAO DOS OPERADORES MUDOU - CUIDADO" << endl;
+		exit(1);
+	}
+	return;
+
+
+
+
+
 	if (experimentMethod == "Imigration")
 		gaParam.initialCreationRate[0] = 0.5e0;
 	else if (experimentMethod == "CrossoverMean")

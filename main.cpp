@@ -57,9 +57,28 @@ int main(int argc, char *argv[])
 	int seed;
 	convert0 >> experimentMethod >> seed;
 
+	stringstream convert1;
+	vector<double> additionalParams;
+	double aux1, aux2, aux3;
+	if(experimentMethod == "TwistOperator")
+	{
+		convert1 << argv[3] << "  " << argv[4];
+		convert1 >> aux1 >> aux2;
+		additionalParams.push_back(aux1);
+		additionalParams.push_back(aux2);
+	}
+	if(experimentMethod == "GeometricCenterDisplacement")
+	{
+		convert1 << argv[3] << "  " << argv[4] << "  " << argv[5];
+		convert1 >> aux1 >> aux2 >> aux3;
+		additionalParams.push_back(aux1);
+		additionalParams.push_back(aux2);
+		additionalParams.push_back(aux3);
+	}
+
 	Experiment exp_;
 
-	exp_.makeExperiment(seed, experimentMethod);
+	exp_.makeExperiment(seed, experimentMethod, additionalParams);
 
 	return 0;
 }

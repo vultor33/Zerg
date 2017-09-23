@@ -191,21 +191,14 @@ void ReadGaInput::setExperimentDefaults(int seed)
 	gaParam.contractionMinMtco = 0.1e0;
 	gaParam.contractionMaxMtco = 0.8e0;
 
-	gaParam.initialCreationRate.resize(14);
+	gaParam.initialCreationRate.resize(7);
 	gaParam.initialCreationRate[0] = 0.0e0;
 	gaParam.initialCreationRate[1] = 0.0e0;
 	gaParam.initialCreationRate[2] = 0.0e0;
-	gaParam.initialCreationRate[3] = 0.2e0;
-	gaParam.initialCreationRate[4] = 0.3e0;
+	gaParam.initialCreationRate[3] = 0.0e0;
+	gaParam.initialCreationRate[4] = 0.0e0;
 	gaParam.initialCreationRate[5] = 0.0e0;
 	gaParam.initialCreationRate[6] = 0.0e0;
-	gaParam.initialCreationRate[7] = 0.0e0;
-	gaParam.initialCreationRate[8] = 0.0e0;
-	gaParam.initialCreationRate[9] = 0.0e0;
-	gaParam.initialCreationRate[10] = 0.0e0;
-	gaParam.initialCreationRate[11] = 0.0e0;
-	gaParam.initialCreationRate[12] = 0.0e0;
-	gaParam.initialCreationRate[13] = 0.0e0;
 }
 
 

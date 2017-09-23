@@ -13,7 +13,7 @@ public:
 
 	~Experiment();
 
-	void makeExperiment(int seed, std::string experimentMethod);
+	void makeExperiment(int seed, std::string experimentMethod, std::vector<double> & additionalParams);
 
 	void setExperiment(std::string experimentMethod, zerg::GaParameters & gaParam);
 
