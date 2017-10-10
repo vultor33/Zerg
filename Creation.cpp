@@ -102,6 +102,7 @@ void Creation::set_creation_methods(Predator &pred)
 		}
 	}
 
+	cout << endl << "new generation" << endl;
 	// set individuals to be created from dead (1,12 etc.)
 	int dead = 0;
 	for(int method=0; method<number_methods; method++)
@@ -110,6 +111,8 @@ void Creation::set_creation_methods(Predator &pred)
 		{
 			creation_methods[method][i+1] = pred.dead_individuals[dead];
 			dead++;
+			cout << "creation:  " << method << endl;
+			//fredmudar
 		}
 	}
 }

@@ -28,7 +28,7 @@ gamess_header_file = li-header.txt
 
 
 
-
+!./zerg.exe GeometricCenterDisplacement  2  0.2  0.5  1
 
 
 
