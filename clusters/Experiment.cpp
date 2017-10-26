@@ -31,7 +31,20 @@ void Experiment::makeExperiment(int seed, string experimentMethod, vector<double
 
 	zerg::GaParameters gaParam = readGa_.getGaParameters();
 
-	if (experimentMethod == "TwistOperator")
+	// best parameters
+	AuxMath auxMath_;
+	gaParam.tetaMinTwisto = auxMath_._pi * 0.1e0;
+	gaParam.tetaMaxTwisto = auxMath_._pi * 0.5e0;
+	gaParam.alfaMinGcdo = 0.2;
+	gaParam.alfaMaxGcdo = 0.7;
+	gaParam.wGcdo = 2;
+
+	if (experimentMethod == "AutoAdjust")
+	{
+		gaParam.adminMaxCreationVariation = additionalParams[0];
+		gaParam.adminLargeEnergyVariation = additionalParams[1];
+	}
+	else if (experimentMethod == "TwistOperator")
 	{
 		AuxMath auxMath_;
 		gaParam.tetaMinTwisto = auxMath_._pi * additionalParams[0];
@@ -81,23 +94,10 @@ void Experiment::setExperiment(std::string experimentMethod, zerg::GaParameters 
 	for (size_t i = 1; i < gaParam.initialCreationRate.size(); i++)
 		gaParam.initialCreationRate[i] = 0.0e0;
 
-	if (experimentMethod == "SmallAutoAdjust")
+	if (experimentMethod == "AutoAdjust")
 	{
 		for (size_t i = 1; i < gaParam.initialCreationRate.size(); i++)
 			gaParam.initialCreationRate[i] = 1.0e0 / ((int)gaParam.initialCreationRate.size()-1);
-		gaParam.adminMaxCreationVariation = 0.2e0;
-	}
-	else if (experimentMethod == "MediumAutoAdjust")
-	{
-		for (size_t i = 1; i < gaParam.initialCreationRate.size(); i++)
-			gaParam.initialCreationRate[i] = 1.0e0 / ((int)gaParam.initialCreationRate.size()-1);
-		gaParam.adminMaxCreationVariation = 0.5e0;
-	}
-	else if (experimentMethod == "LargeAutoAdjust")
-	{
-		for (size_t i = 1; i < gaParam.initialCreationRate.size(); i++)
-			gaParam.initialCreationRate[i] = 1.0e0 / ((int)gaParam.initialCreationRate.size()-1);
-		gaParam.adminMaxCreationVariation = 0.9e0;
 	}
 	else if (experimentMethod == "TwistOperator")
 		gaParam.initialCreationRate[3] = 1.0e0;

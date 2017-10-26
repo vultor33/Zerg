@@ -10,3 +10,6 @@
     - como são 10 - apenas 8 operadores vao criar individuos.
     - mas a escolha desses 8 é aleatória.
 
+
+AutoAdjust [max creation variation] [energy range]
+

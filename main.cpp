@@ -45,6 +45,7 @@ estudo das formas de gerar clusters iniciais:
 */
 
 void printAtomsVectorDouble(vector<double> & atoms, string testName = "teste.xyz");
+void generateExecutable(vector<string> argv);
 
 int main(int argc, char *argv[])
 {
@@ -67,7 +68,7 @@ int main(int argc, char *argv[])
 		additionalParams.push_back(aux1);
 		additionalParams.push_back(aux2);
 	}
-	if(experimentMethod == "GeometricCenterDisplacement")
+	else if(experimentMethod == "GeometricCenterDisplacement")
 	{
 		convert1 << argv[3] << "  " << argv[4] << "  " << argv[5];
 		convert1 >> aux1 >> aux2 >> aux3;
@@ -75,6 +76,18 @@ int main(int argc, char *argv[])
 		additionalParams.push_back(aux2);
 		additionalParams.push_back(aux3);
 	}
+	else if(experimentMethod == "AutoAdjust")
+	{
+		convert1 << argv[3] << "  " << argv[4];
+		convert1 >> aux1 >> aux2;
+		additionalParams.push_back(aux1);
+		additionalParams.push_back(aux2);
+	}
+
+        ofstream histogram_;
+        histogram_.open("creation-histogram.txt", std::ofstream::out | std::ofstream::app);
+	histogram_ << "run:  " << experimentMethod << "  seed:  " <<  seed << endl;
+	histogram_.close();
 
 	Experiment exp_;
 
@@ -82,6 +95,27 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
+
+void generateExecutable(vector<string> argv)
+{
+        stringstream conv;
+        conv << argv[1] << "  " << argv[2] << "  " << argv[3];
+        string auxName;
+        double param1, param2;
+        conv >> auxName >> param1 >> param2;
+        string name = "./zerg.exe " + auxName + "  ";
+        ofstream roda_("roda");
+        roda_ << "#!/bin/bash" << endl;
+        for(int i = 1; i <= 50; i++)
+        {
+                roda_ << name << i << "  " << param1
+                        << "  " << param2 << endl;
+        }
+        roda_.close();
+        system("chmod u+x roda");
+}
+
 
 
 	//EXEMPLO DE EXECUCAO DO GA
