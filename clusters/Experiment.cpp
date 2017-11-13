@@ -74,6 +74,8 @@ void Experiment::makeExperiment(int seed, string experimentMethod, vector<double
 		readGa_.getGamessScr(),
 		readGa_.getGamessNprocess());
 
+	clFit_.setExperimentConditions(-108.315e0, 3000);
+
 	GeneticAlgorithm ga1(clFit_, gaParam);
 
 	ga1.ga_start();

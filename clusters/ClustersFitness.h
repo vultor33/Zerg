@@ -26,6 +26,8 @@ public:
 
 	int getNumberOfLocalMinimizations() { return numberOfLocalMinimizations; }
 
+	void setExperimentConditions(double globalMinimaEnergy_in, double maxMinimizations_in);
+
 private:
 	void optimize(int ind_i);
 
@@ -45,8 +47,12 @@ private:
 	int restartMax;
 
 	// experiment util
+	bool makeExperiment;
+	double globalMinimaEnergy;
+	double maxMinimizations;
 	int seed;
 	std::string experimentMethod;
+	void endExperimentConditions(double energy);
 };
 
 #endif

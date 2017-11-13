@@ -23,6 +23,7 @@ ClustersFitness::ClustersFitness(
 	options = options_in;
 	iRestart = 0;
 	numberOfLocalMinimizations = 0;
+	makeExperiment = false;
 	if (gaParam.restart)
 	{
 		readRestartFile();
@@ -106,22 +107,9 @@ void ClustersFitness::optimize(int ind_i)
 			nProc);
 
 	numberOfLocalMinimizations++;
-	if (energy[ind_i] <= -108.315)
-	{
-		ofstream fileCsv_;
-		fileCsv_.open(("cluster-result-" + experimentMethod + ".csv").c_str(), std::ofstream::out | std::ofstream::app);
-		fileCsv_ << experimentMethod << " ; " << seed << " ; " << numberOfLocalMinimizations << endl;
-		fileCsv_.close();
-		exit(0);
-	}
-	else if (numberOfLocalMinimizations > 3000)
-	{
-		ofstream fileCsv_;
-		fileCsv_.open(("cluster-result-" + experimentMethod + ".csv").c_str(), std::ofstream::out | std::ofstream::app);
-		fileCsv_ << experimentMethod << " ; " << seed << " ; " << numberOfLocalMinimizations << endl;
-		fileCsv_.close();
-		exit(0);
-	}
+
+	if (makeExperiment)
+		endExperimentConditions(energy[ind_i]);
 }
 
 void ClustersFitness::printAllIndividuals(string fileName)
@@ -208,3 +196,29 @@ void ClustersFitness::readRestartFile()
 	restart_.close();
 }
 
+void ClustersFitness::setExperimentConditions(double globalMinimaEnergy_in, double maxMinimizations_in)
+{
+	globalMinimaEnergy = globalMinimaEnergy_in;
+	maxMinimizations = maxMinimizations_in;
+	makeExperiment = true;
+}
+
+void ClustersFitness::endExperimentConditions(double energy)
+{
+	if (energy <= globalMinimaEnergy)
+	{
+		ofstream fileCsv_;
+		fileCsv_.open(("cluster-result-" + experimentMethod + ".csv").c_str(), std::ofstream::out | std::ofstream::app);
+		fileCsv_ << experimentMethod << " ; " << seed << " ; " << numberOfLocalMinimizations << endl;
+		fileCsv_.close();
+		exit(0);
+	}
+	else if (numberOfLocalMinimizations > maxMinimizations)
+	{
+		ofstream fileCsv_;
+		fileCsv_.open(("cluster-result-" + experimentMethod + ".csv").c_str(), std::ofstream::out | std::ofstream::app);
+		fileCsv_ << experimentMethod << " ; " << seed << " ; " << numberOfLocalMinimizations << endl;
+		fileCsv_.close();
+		exit(0);
+	}
+}
