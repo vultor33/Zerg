@@ -2,16 +2,15 @@
 CC = g++
 
 # define any compile-time flags
-CFLAGS = -Wall -g 
-#-std=c++11
+CFLAGS = -Wall -g -std=c++11
 
 # define any directories containing header files other than /usr/include
-INCLUDES = -I. -Iclusters/
+INCLUDES = -I. -Iclusters/ -I../dlib-19.4/
 
 # define library paths in addition to /usr/lib
 #   if I wanted to include libraries not in /usr/lib I'd specify
 #   their path using -Lpath, something like:
-LFLAGS = 
+LFLAGS = -O3 -lpthread -lX11
 
 # define any libraries to link into executable:
 #   if I want to link in libraries (libx.so or libx.a) I use the -llibname 
@@ -19,7 +18,7 @@ LFLAGS =
 LIBS = 
 
 # define the C++ source files
-SRCS = AdministrateCreation.cpp AuxMath.cpp AuxMathGa.cpp BasicOperators.cpp Creation.cpp FuzzyAdministration.cpp GAPrinting.cpp GeneticAlgorithm.cpp Globals.cpp Hooklaw.cpp main.cpp ParallelOptimization.cpp Predator.cpp UserFitness.cpp UserOperators.cpp clusters/ClustersFitness.cpp clusters/ClustersOperators.cpp clusters/Fitness.cpp clusters/InitializeAtoms.cpp clusters/ReadGaInput.cpp clusters/ReadQuantumOutput.cpp clusters/WriteQuantumInput.cpp clusters/Experiment.cpp
+SRCS = AdministrateCreation.cpp AuxMath.cpp AuxMathGa.cpp BasicOperators.cpp Creation.cpp FuzzyAdministration.cpp GAPrinting.cpp GeneticAlgorithm.cpp Globals.cpp Hooklaw.cpp main.cpp ParallelOptimization.cpp Predator.cpp UserFitness.cpp UserOperators.cpp clusters/ClustersFitness.cpp clusters/ClustersOperators.cpp clusters/Fitness.cpp clusters/InitializeAtoms.cpp clusters/ReadGaInput.cpp clusters/ReadQuantumOutput.cpp clusters/WriteQuantumInput.cpp clusters/Experiment.cpp clusters/Derivative.cpp ../dlib-19.4/dlib/all/source.cpp
 
 
 # define the C++ object files 
@@ -44,7 +43,7 @@ MAIN = zerg.exe
 .PHONY: depend clean
 
 all:    $(MAIN)
-	@echo  lumpacview.exe foi compilado com sucesso:
+	@echo  zerg.exe foi compilado com sucesso:
 
 $(MAIN): $(OBJS)
 	$(CC) $(CFLAGS) $(INCLUDES) -o $(MAIN) $(OBJS) $(LFLAGS) $(LIBS)

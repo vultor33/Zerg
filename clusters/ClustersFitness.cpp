@@ -106,7 +106,6 @@ void ClustersFitness::optimize(int ind_i)
 			nProc);
 
 	numberOfLocalMinimizations++;
-	cout << numberOfLocalMinimizations << endl;
 	if (energy[ind_i] <= -108.315)
 	{
 		ofstream fileCsv_;
