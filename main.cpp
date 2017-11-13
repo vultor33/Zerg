@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <algorithm>
 
 #include "BasicOperators.h"
 #include "GeneticAlgorithm.h"
@@ -45,23 +46,39 @@ estudo das formas de gerar clusters iniciais:
 */
 
 void printAtomsVectorDouble(vector<double> & atoms, string testName = "teste.xyz");
+void calculateMeanTestFormat(string name);
 
 int main(int argc, char *argv[])
 {
 	//cout << "WARNING - only cluster 26" << endl;
 	//cout << "change void ClustersFitness::optimize(int ind_i) to normalize" << endl;
+	int size = 7;
+	vector<string> name(size);
+	for (size_t i = 0; i < size; i++)
+	{	
+		stringstream convert;
+		convert << (i + 1);
 
+		name[i] = "cluster-result-"
+			+ convert.str()
+			+ ".csv";
+	}
+	//for (int i = 0; i < name.size(); i++)
+		//calculateMeanTestFormat(name[i]);
+
+	calculateMeanTestFormat("cluster-result-previousPaper.csv");
+	return 0;
+
+	/*
 	stringstream convert0;
 	convert0 << argv[1] << "  " << argv[2];
 	string experimentMethod;
 	int seed;
 	convert0 >> experimentMethod >> seed;
-
 	Experiment exp_;
-
 	exp_.makeExperiment(seed, experimentMethod);
-
 	return 0;
+	*/
 }
 
 
@@ -113,4 +130,56 @@ void printAtomsVectorDouble(vector<double> & atoms, string testName)
 	}
 	teste_.close();
 }
+
+void calculateMeanTestFormat(string name)
+{
+	/*EXEMPLO
+	int size = 3;
+	vector<string> name(size);
+	name[0] = "cluster-result-n-LargeAutoAdjust.csv";
+	name[1] = "cluster-result-n-SmallAutoAdjust.csv";
+	name[2] = "cluster-result-n-MediumAutoAdjust.csv";
+	for (int i = 0; i < name.size(); i++)
+		calculateMean(name[i]);
+	*/
+
+	ifstream read_(name.c_str());
+	string auxline;
+	vector<int> iterations;
+	string a1, a2, a3, a4;
+	int it;
+	while (getline(read_, auxline))
+	{
+		if (auxline == "")
+			break;
+		stringstream line;
+		line << auxline;
+		line >> a1 >> a2 >> a3 >> a4 >> it;
+		iterations.push_back(it);
+	}
+	read_.close();
+	sort(iterations.begin(), iterations.end());
+	string sName = name.erase(name.size() - 4, name.size());
+	sName = sName.erase(0, 15);
+	ofstream all_;
+	all_.open("allMethods-Only.csv", std::ofstream::out | std::ofstream::app);
+	if (iterations.size() == 0)
+	{
+		cout << "EMPTY FILE:  " << sName << endl;
+		exit(1);
+	}
+	if (iterations[49] > 3000)
+	{
+		//all_ << sName << "  ;  " << "DISCARDED" << endl;
+		//return;
+	}
+	int mean = 0;
+	for (size_t i = 0; i < 50; i++)
+	{
+		mean += iterations[i];
+	}
+	all_ << sName << "  ;  " << (double)mean / 50.0e0 << endl;
+}
+
+
 
